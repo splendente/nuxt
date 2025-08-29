@@ -1,6 +1,6 @@
 ---
 title: 'nuxt prepare'
-description: prepare コマンドは、アプリケーションに .nuxt ディレクトリを作成し、型を生成します。
+description: The prepare command creates a .nuxt directory in your application and generates types.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,23 +14,23 @@ npx nuxt prepare [ROOTDIR] [--dotenv] [--cwd=<directory>] [--logLevel=<silent|in
 ```
 <!--/prepare-cmd-->
 
-`prepare` コマンドは、アプリケーションに [`.nuxt`](/docs/guide/directory-structure/nuxt) ディレクトリを作成し、型を生成します。これは CI 環境や [`package.json`](/docs/guide/directory-structure/package) の `postinstall` コマンドとして有用です。
+The `prepare` command creates a [`.nuxt`](/docs/guide/directory-structure/nuxt) directory in your application and generates types. This can be useful in a CI environment or as a `postinstall` command in your [`package.json`](/docs/guide/directory-structure/package).
 
-## 引数
+## Arguments
 
 <!--prepare-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/prepare-args-->
 
-## オプション
+## Options
 
 <!--prepare-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--dotenv` |  | 読み込む `.env` ファイルのパス（ルートディレクトリからの相対パス）
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
-`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
-`--envName` |  | 設定オーバーライドを解決する際に使用する環境（ビルド時のデフォルトは `production`、dev サーバー実行時のデフォルトは `development`）
+`--dotenv` |  | Path to `.env` file to load, relative to the root directory
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
+`--envName` |  | The environment to use when resolving configuration overrides (default is `production` when building, and `development` when running the dev server)
 <!--/prepare-opts-->

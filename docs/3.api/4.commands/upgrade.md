@@ -1,6 +1,6 @@
 ---
 title: "nuxt upgrade"
-description: upgrade コマンドは Nuxt を最新バージョンにアップグレードします。
+description: The upgrade command upgrades Nuxt to the latest version.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,24 +14,24 @@ npx nuxt upgrade [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbose>
 ```
 <!--/upgrade-cmd-->
 
-`upgrade` コマンドは Nuxt を最新バージョンにアップグレードします。
+The `upgrade` command upgrades Nuxt to the latest version.
 
-## 引数
+## Arguments
 
 <!--upgrade-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/upgrade-args-->
 
-## オプション
+## Options
 
 <!--upgrade-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
-`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
-`--dedupe` |  | 依存関係を重複排除しますが、ロックファイルは再作成しません
-`-f, --force` |  | ロックファイルと node_modules を再作成するために強制的にアップグレードします
-`-ch, --channel=<stable\|nightly>` | `stable` | インストール元のチャンネルを指定します（デフォルト: stable）
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
+`--dedupe` |  | Will deduplicate dependencies but not recreate the lockfile
+`-f, --force` |  | Force upgrade to recreate lockfile and node_modules
+`-ch, --channel=<stable\|nightly>` | `stable` | Specify a channel to install from (default: stable)
 <!--/upgrade-opts-->

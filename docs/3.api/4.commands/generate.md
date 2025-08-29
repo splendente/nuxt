@@ -1,6 +1,6 @@
 ---
 title: "nuxt generate"
-description: アプリケーションのすべてのルートを事前レンダリングし、結果をプレーンな HTML ファイルに保存します。
+description: Pre-renders every route of the application and stores the result in plain HTML files.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,28 +14,28 @@ npx nuxt generate [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbose
 ```
 <!--/generate-cmd-->
 
-`generate` コマンドは、アプリケーションのすべてのルートを事前レンダリングし、結果を任意の静的ホスティングサービスにデプロイできるプレーンな HTML ファイルに保存します。このコマンドは `prerender` 引数を `true` に設定して `nuxt build` コマンドをトリガーします
+The `generate` command pre-renders every route of your application and stores the result in plain HTML files that you can deploy on any static hosting services. The command triggers the `nuxt build` command with the `prerender` argument set to `true`
 
-## 引数
+## Arguments
 
 <!--generate-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/generate-args-->
 
-## オプション
+## Options
 
 <!--generate-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
-`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
-`--preset` |  | Nitro サーバープリセット
-`--dotenv` |  | 読み込む `.env` ファイルのパス（ルートディレクトリからの相対パス）
-`--envName` |  | 設定オーバーライドを解決する際に使用する環境（ビルド時のデフォルトは `production`、dev サーバー実行時のデフォルトは `development`）
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
+`--preset` |  | Nitro server preset
+`--dotenv` |  | Path to `.env` file to load, relative to the root directory
+`--envName` |  | The environment to use when resolving configuration overrides (default is `production` when building, and `development` when running the dev server)
 <!--/generate-opts-->
 
 ::read-more{to="/docs/getting-started/deployment#static-hosting"}
-事前レンダリングと静的ホスティングについてもっと読む。
+Read more about pre-rendering and static hosting.
 ::

@@ -1,6 +1,6 @@
 ---
 title: 'useFetch'
-description: 'SSR に優しい composable で API エンドポイントからデータをフェッチします。'
+description: 'Fetch data from an API endpoint with an SSR-friendly composable.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,14 +8,14 @@ links:
     size: xs
 ---
 
-この composable は [`useAsyncData`](/docs/api/composables/use-async-data) と [`$fetch`](/docs/api/utils/dollarfetch) の便利なラッパーを提供します。
-URL とフェッチオプションに基づいてキーを自動生成し、サーバールートに基づいてリクエスト URL の型ヒントを提供し、API レスポンスタイプを推論します。
+This composable provides a convenient wrapper around [`useAsyncData`](/docs/api/composables/use-async-data) and [`$fetch`](/docs/api/utils/dollarfetch).
+It automatically generates a key based on URL and fetch options, provides type hints for request url based on server routes, and infers API response type.
 
 ::note
-`useFetch` は setup 関数、プラグイン、またはルートミドルウェア内で直接呼び出すことを意図した composable です。リアクティブな composables を返し、Nuxt payload へのレスポンスの追加を処理して、ページが hydrate される際にクライアントサイドでデータを再フェッチすることなくサーバーからクライアントに渡すことができます。
+`useFetch` is a composable meant to be called directly in a setup function, plugin, or route middleware. It returns reactive composables and handles adding responses to the Nuxt payload so they can be passed from server to client without re-fetching the data on client side when the page hydrates.
 ::
 
-## 使用方法
+## Usage
 
 ```vue [pages/modules.vue]
 <script setup lang="ts">
@@ -26,14 +26,14 @@ const { data, status, error, refresh, clear } = await useFetch('/api/modules', {
 ```
 
 ::warning
-カスタムの useFetch ラッパーを使用している場合は、composable 内でそれを await しないでください。予期しない動作を引き起こす可能性があります。カスタム非同期データフェッチャーの作り方についての詳細は、[このレシピ](/docs/guide/recipes/custom-usefetch#custom-usefetch)を参照してください。
+If you're using a custom useFetch wrapper, do not await it in the composable, as that can cause unexpected behavior. Please follow [this recipe](/docs/guide/recipes/custom-usefetch#custom-usefetch) for more information on how to make a custom async data fetcher.
 ::
 
 ::note
-`data`、`status`、`error` は Vue refs であり、`<script setup>` 内で使用する際は `.value` でアクセスしてください。一方、`refresh`/`execute` と `clear` は通常の関数です。
+`data`, `status`, and `error` are Vue refs, and they should be accessed with `.value` when used within the `<script setup>`, while `refresh`/`execute` and `clear` are plain functions.
 ::
 
-`query` オプションを使用して、クエリに検索パラメーターを追加できます。このオプションは [unjs/ofetch](https://github.com/unjs/ofetch) から拡張され、[unjs/ufo](https://github.com/unjs/ufo) を使用して URL を作成します。オブジェクトは自動的に文字列化されます。
+Using the `query` option, you can add search parameters to your query. This option is extended from [unjs/ofetch](https://github.com/unjs/ofetch) and is using [unjs/ufo](https://github.com/unjs/ufo) to create the URL. Objects are automatically stringified.
 
 ```ts
 const param1 = ref('value1')
@@ -42,48 +42,48 @@ const { data, status, error, refresh } = await useFetch('/api/modules', {
 })
 ```
 
-上記の例では `https://api.nuxt.com/modules?param1=value1&param2=value2` になります。
+The above example results in `https://api.nuxt.com/modules?param1=value1&param2=value2`.
 
-[インターセプター](https://github.com/unjs/ofetch#%EF%B8%8F-interceptors)も使用できます:
+You can also use [interceptors](https://github.com/unjs/ofetch#%EF%B8%8F-interceptors):
 
 ```ts
 const { data, status, error, refresh, clear } = await useFetch('/api/auth/login', {
   onRequest({ request, options }) {
-    // リクエストヘッダーを設定
-    // これは ofetch >= 1.4.0 に依存します - lockfile の更新が必要な場合があります
+    // Set the request headers
+    // note that this relies on ofetch >= 1.4.0 - you may need to refresh your lockfile
     options.headers.set('Authorization', '...')
   },
   onRequestError({ request, options, error }) {
-    // リクエストエラーを処理
+    // Handle the request errors
   },
   onResponse({ request, response, options }) {
-    // レスポンスデータを処理
+    // Process the response data
     localStorage.setItem('token', response._data.token)
   },
   onResponseError({ request, response, options }) {
-    // レスポンスエラーを処理
+    // Handle the response errors
   }
 })
 ```
 
-### リアクティブキーと共有状態
+### Reactive Keys and Shared State
 
-URL として computed ref または通常の ref を使用でき、URL が変更されたときに自動的に更新される動的なデータフェッチが可能です:
+You can use a computed ref or a plain ref as the URL, allowing for dynamic data fetching that automatically updates when the URL changes:
 
 ```vue [pages/[id\\].vue]
 <script setup lang="ts">
 const route = useRoute()
 const id = computed(() => route.params.id)
 
-// ルートが変更されて id が更新されると、データは自動的に再フェッチされます
+// When the route changes and id updates, the data will be automatically refetched
 const { data: post } = await useFetch(() => `/api/posts/${id.value}`)
 </script>
 ```
 
-複数のコンポーネントで同じ URL とオプションで `useFetch` を使用する場合、同じ `data`、`error`、`status` refs を共有します。これによりコンポーネント間の一貫性が保証されます。
+When using `useFetch` with the same URL and options in multiple components, they will share the same `data`, `error` and `status` refs. This ensures consistency across components.
 
 ::warning
-`useFetch` はコンパイラによって変換される予約関数名であるため、独自の関数に `useFetch` という名前を付けるべきではありません。
+`useFetch` is a reserved function name transformed by the compiler, so you should not name your own function `useFetch`.
 ::
 
 ::warning
@@ -94,7 +94,7 @@ If you encounter the `data` variable destructured from a `useFetch` returns a st
 
 :read-more{to="/docs/getting-started/data-fetching"}
 
-## 型
+## Type
 
 ```ts [Signature]
 function useFetch<DataT, ErrorT>(
@@ -124,7 +124,7 @@ type UseFetchOptions<DataT> = {
 }
 
 type AsyncDataRequestContext = {
-  /** このデータリクエストの理由 */
+  /** The reason for this data request */
   cause: 'initial' | 'refresh:manual' | 'refresh:hook' | 'watch'
 }
 
@@ -144,71 +144,71 @@ interface AsyncDataExecuteOptions {
 type AsyncDataRequestStatus = 'idle' | 'pending' | 'success' | 'error'
 ```
 
-## パラメーター
+## Parameters
 
-- `URL` (`string | Request | Ref<string | Request> | () => string | Request`): フェッチする URL またはリクエスト。文字列、Request オブジェクト、Vue ref、または文字列/Request を返す関数であることができます。動的エンドポイントのためのリアクティビティをサポートします。
+- `URL` (`string | Request | Ref<string | Request> | () => string | Request`): The URL or request to fetch. Can be a string, a Request object, a Vue ref, or a function returning a string/Request. Supports reactivity for dynamic endpoints.
 
-- `options` (object): フェッチリクエストの設定。[unjs/ofetch](https://github.com/unjs/ofetch) オプションと [`AsyncDataOptions`](/docs/api/composables/use-async-data#params) を拡張します。すべてのオプションは静的値、`ref`、または computed 値にすることができます。
+- `options` (object): Configuration for the fetch request. Extends [unjs/ofetch](https://github.com/unjs/ofetch) options and [`AsyncDataOptions`](/docs/api/composables/use-async-data#params). All options can be a static value, a `ref`, or a computed value.
 
-| オプション | 型 | デフォルト | 説明 |
+| Option | Type | Default | Description |
 | ---| --- | --- | --- |
-| `key` | `MaybeRefOrGetter<string>` | auto-gen | 重複排除用の一意キー。提供されない場合、URL とオプションから生成されます。 |
-| `method` | `string` | `'GET'` | HTTP リクエストメソッド。 |
-| `query` | `object` | - | URL に追加するクエリ/検索パラメーター。エイリアス: `params`。refs/computed をサポート。 |
-| `params` | `object` | - | `query` のエイリアス。 |
-| `body` | `RequestInit['body'] \| Record<string, any>` | - | リクエストボディ。オブジェクトは自動的に文字列化されます。refs/computed をサポート。 |
-| `headers` | `Record<string, string> \| [key, value][] \| Headers` | - | リクエストヘッダー。 |
-| `baseURL` | `string` | - | リクエストのベース URL。 |
-| `timeout` | `number` | - | リクエストを中止するまでのタイムアウト（ミリ秒）。 |
-| `cache` | `boolean \| string` | - | キャッシュ制御。Boolean でキャッシュを無効化、または Fetch API の値を使用: `default`、`no-store` など。 |
-| `server` | `boolean` | `true` | サーバーでフェッチするかどうか。 |
-| `lazy` | `boolean` | `false` | true の場合、ルート読み込み後に解決します（ナビゲーションをブロックしません）。 |
-| `immediate` | `boolean` | `true` | false の場合、リクエストが即座に発火されることを防います。 |
-| `default` | `() => DataT` | - | 非同期解決前の `data` のデフォルト値のファクトリ。 |
-| `transform` | `(input: DataT) => DataT \| Promise<DataT>` | - | 解決後に結果を変換する関数。 |
-| `getCachedData`| `(key, nuxtApp, ctx) => DataT \| undefined` | - | キャッシュされたデータを返す関数。デフォルトは以下を参照。 |
-| `pick` | `string[]` | - | 結果から指定されたキーのみを選択。 |
-| `watch` | `MultiWatchSources \| false` | - | 監視して自動リフレッシュするリアクティブソースの配列。`false` で監視を無効化。 |
-| `deep` | `boolean` | `false` | データを deep ref オブジェクトで返す。 |
-| `dedupe` | `'cancel' \| 'defer'` | `'cancel'` | 同じキーを一度に一回以上フェッチすることを避ける。 |
-| `$fetch` | `typeof globalThis.$fetch` | - | カスタム $fetch 実装。 |
+| `key` | `MaybeRefOrGetter<string>` | auto-gen | Unique key for de-duplication. If not provided, generated from URL and options. |
+| `method` | `string` | `'GET'` | HTTP request method. |
+| `query` | `object` | - | Query/search params to append to the URL. Alias: `params`. Supports refs/computed. |
+| `params` | `object` | - | Alias for `query`. |
+| `body` | `RequestInit['body'] \| Record<string, any>` | - | Request body. Objects are automatically stringified. Supports refs/computed. |
+| `headers` | `Record<string, string> \| [key, value][] \| Headers` | - | Request headers. |
+| `baseURL` | `string` | - | Base URL for the request. |
+| `timeout` | `number` | - | Timeout in milliseconds to abort the request. |
+| `cache` | `boolean \| string` | - | Cache control. Boolean disables cache, or use Fetch API values: `default`, `no-store`, etc. |
+| `server` | `boolean` | `true` | Whether to fetch on the server. |
+| `lazy` | `boolean` | `false` | If true, resolves after route loads (does not block navigation). |
+| `immediate` | `boolean` | `true` | If false, prevents request from firing immediately. |
+| `default` | `() => DataT` | - | Factory for default value of `data` before async resolves. |
+| `transform` | `(input: DataT) => DataT \| Promise<DataT>` | - | Function to transform the result after resolving. |
+| `getCachedData`| `(key, nuxtApp, ctx) => DataT \| undefined` | - | Function to return cached data. See below for default. |
+| `pick` | `string[]` | - | Only pick specified keys from the result. |
+| `watch` | `MultiWatchSources \| false` | - | Array of reactive sources to watch and auto-refresh. `false` disables watching. |
+| `deep` | `boolean` | `false` | Return data in a deep ref object. |
+| `dedupe` | `'cancel' \| 'defer'` | `'cancel'` | Avoid fetching same key more than once at a time. |
+| `$fetch` | `typeof globalThis.$fetch` | - | Custom $fetch implementation. |
 
 ::note
-すべてのフェッチオプションに `computed` または `ref` 値を渡すことができます。これらは監視され、更新された場合は新しい値で自動的に新しいリクエストが作成されます。
+All fetch options can be given a `computed` or `ref` value. These will be watched and new requests made automatically with any new values if they are updated.
 ::
 
-**getCachedData デフォルト:**
+**getCachedData default:**
 
 ```ts
 const getDefaultCachedData = (key, nuxtApp, ctx) => nuxtApp.isHydrating 
  ? nuxtApp.payload.data[key] 
  : nuxtApp.static.data[key]
 ```
-これは `nuxt.config` の `experimental.payloadExtraction` が有効な場合のみデータをキャッシュします。
+This only caches data when `experimental.payloadExtraction` in `nuxt.config` is enabled.
 
-## 戻り値
+## Return Values
 
-| 名前 | 型 | 説明 |
+| Name | Type | Description |
 | --- | --- |--- |
-| `data` | `Ref<DataT \| undefined>` | 非同期フェッチの結果。 |
-| `refresh` | `(opts?: AsyncDataExecuteOptions) => Promise<void>` | データを手動でリフレッシュする関数。デフォルトでは、Nuxt は `refresh` が完了するまで待ってから再度実行されます。 |
-| `execute` | `(opts?: AsyncDataExecuteOptions) => Promise<void>` | `refresh` のエイリアス。 |
-| `error` | `Ref<ErrorT \| undefined>` | データフェッチが失敗した場合のエラーオブジェクト。 |
-| `status` | `Ref<'idle' \| 'pending' \| 'success' \| 'error'>` | データリクエストのステータス。可能な値は以下を参照。 |
-| `clear` | `() => void` | `data` を `undefined`（または提供されている場合 `options.default()` の値）にリセットし、`error` を `undefined` に設定し、`status` を `idle` に設定し、保留中のリクエストをキャンセルします。 |
+| `data` | `Ref<DataT \| undefined>` | The result of the asynchronous fetch. |
+| `refresh` | `(opts?: AsyncDataExecuteOptions) => Promise<void>` | Function to manually refresh the data. By default, Nuxt waits until a `refresh` is finished before it can be executed again. |
+| `execute` | `(opts?: AsyncDataExecuteOptions) => Promise<void>` | Alias for `refresh`. |
+| `error` | `Ref<ErrorT \| undefined>` | Error object if the data fetching failed. |
+| `status` | `Ref<'idle' \| 'pending' \| 'success' \| 'error'>` | Status of the data request. See below for possible values. |
+| `clear` | `() => void` | Resets `data` to `undefined` (or the value of `options.default()` if provided), `error` to `undefined`, set `status` to `idle`, and cancels any pending requests. |
 
-### ステータス値
+### Status values
 
-- `idle`: リクエストが開始されていない（例: `{ immediate: false }` またはサーバーレンダリングで `{ server: false }`）
-- `pending`: リクエストが進行中
-- `success`: リクエストが正常に完了
-- `error`: リクエストが失敗
+- `idle`: Request has not started (e.g. `{ immediate: false }` or `{ server: false }` on server render)
+- `pending`: Request is in progress
+- `success`: Request completed successfully
+- `error`: Request failed
 
 ::note
-サーバーでデータをフェッチしていない場合（例えば `server: false`）、hydration が完了するまでデータはフェッチ _されません_。つまり、クライアントサイドで `useFetch` を await しても、`data` は `<script setup>` 内で null のままです。
+If you have not fetched data on the server (for example, with `server: false`), then the data _will not_ be fetched until hydration completes. This means even if you await `useFetch` on client-side, `data` will remain null within `<script setup>`.
 ::
 
-### 例
+### Examples
 
 :link-example{to="/docs/examples/advanced/use-custom-fetch-composable"}
 

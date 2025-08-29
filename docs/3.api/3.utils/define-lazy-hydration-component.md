@@ -1,6 +1,6 @@
 ---
 title: 'defineLazyHydrationComponent'
-description: '特定の戦略で lazy hydration コンポーネントを定義します。'
+description: 'Define a lazy hydration component with a specific strategy.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,13 +8,13 @@ links:
     size: xs
 ---
 
-`defineLazyHydrationComponent` は、特定の lazy hydration 戦略でコンポーネントを作成するためのコンパイラーマクロです。Lazy hydration は、コンポーネントが表示されるまで、またはブラウザーがより重要なタスクを完了するまで hydration を遅延します。これにより、特に非本質的なコンポーネントにおいて、初期のパフォーマンスコストを大幅に削減できます。
+`defineLazyHydrationComponent` is a compiler macro that helps you create a component with a specific lazy hydration strategy. Lazy hydration defers hydration until components become visible or until the browser has completed more critical tasks. This can significantly reduce the initial performance cost, especially for non-essential components.
 
-## 使用方法
+## Usage
 
-### 表示戦略
+### Visibility Strategy
 
-コンポーネントがビューポート内で表示されたときに hydrate します。
+Hydrates the component when it becomes visible in the viewport.
 
 ```vue
 <script setup lang="ts">
@@ -27,27 +27,27 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 <template>
   <div>
     <!-- 
-      要素がビューポートに入る 100px 手前に
-      hydration がトリガーされます。
+      Hydration will be triggered when
+      the element(s) is 100px away from entering the viewport.
     -->
     <LazyHydrationMyComponent :hydrate-on-visible="{ rootMargin: '100px' }" />
   </div>
 </template>
 ```
 
-`hydrateOnVisible` prop はオプションです。内部の `IntersectionObserver` の動作をカスタマイズするためにオブジェクトを渡すことができます。
+The `hydrateOnVisible` prop is optional. You can pass an object to customize the behavior of the `IntersectionObserver` under the hood.
 
 ::read-more{to="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver" title="IntersectionObserver options"}
-`hydrate-on-visible` のオプションについて詳しく読む。
+Read more about the options for `hydrate-on-visible`.
 ::
 
 ::note
-内部的には、Vue 組み込みの [`hydrateOnVisible` 戦略](https://vuejs.org/guide/components/async.html#hydrate-on-visible)を使用しています。
+Under the hood, this uses Vue's built-in [`hydrateOnVisible` strategy](https://vuejs.org/guide/components/async.html#hydrate-on-visible).
 ::
 
-### アイドル戦略
+### Idle Strategy
 
-ブラウザーがアイドル状態のときにコンポーネントを hydrate します。これは、コンポーネントをできるだけ早く読み込む必要があるが、重要なレンダリングパスをブロックしたくない場合に適しています。
+Hydrates the component when the browser is idle. This is suitable if you need the component to load as soon as possible, but not block the critical rendering path.
 
 ```vue
 <script setup lang="ts">
@@ -59,23 +59,23 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 
 <template>
   <div>
-    <!-- ブラウザーがアイドル状態のときまたは 2000ms 後に hydration がトリガーされます。 -->
+    <!-- Hydration will be triggered when the browser is idle or after 2000ms. -->
     <LazyHydrationMyComponent :hydrate-on-idle="2000" />
   </div>
 </template>
 ```
 
-`hydrateOnIdle` prop はオプションです。最大タイムアウトを指定するために正の数値を渡すことができます。
+The `hydrateOnIdle` prop is optional. You can pass a positive number to specify the maximum timeout.
 
-アイドル戦略は、ブラウザーがアイドル状態のときに hydrate できるコンポーネント向けです。
+Idle strategy is for components that can be hydrated when the browser is idle.
 
 ::note
-内部的には、Vue 組み込みの [`hydrateOnIdle` 戦略](https://vuejs.org/guide/components/async.html#hydrate-on-idle)を使用しています。
+Under the hood, this uses Vue's built-in [`hydrateOnIdle` strategy](https://vuejs.org/guide/components/async.html#hydrate-on-idle).
 ::
 
-### インタラクション戦略
+### Interaction Strategy
 
-指定されたインタラクション（例: クリック、マウスオーバー）後にコンポーネントを hydrate します。
+Hydrates the component after a specified interaction (e.g., click, mouseover).
 
 ```vue
 <script setup lang="ts">
@@ -88,23 +88,23 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 <template>
   <div>
     <!--
-      要素にポインターがホバーしたときに
-      hydration がトリガーされます。
+      Hydration will be triggered when
+      the element(s) is hovered over by the pointer.
     -->
     <LazyHydrationMyComponent hydrate-on-interaction="mouseover" />
   </div>
 </template>
 ```
 
-`hydrateOnInteraction` prop はオプションです。イベントまたはイベントのリストを渡さない場合、デフォルトで `pointerenter`、`click`、`focus` で hydrate します。
+The `hydrateOnInteraction` prop is optional. If you do not pass an event or a list of events, it defaults to hydrating on `pointerenter`, `click`, and `focus`.
 
 ::note
-内部的には、Vue 組み込みの [`hydrateOnInteraction` 戦略](https://vuejs.org/guide/components/async.html#hydrate-on-interaction)を使用しています。
+Under the hood, this uses Vue's built-in [`hydrateOnInteraction` strategy](https://vuejs.org/guide/components/async.html#hydrate-on-interaction).
 ::
 
-### メディアクエリ戦略
+### Media Query Strategy
 
-ウィンドウがメディアクエリにマッチしたときにコンポーネントを hydrate します。
+Hydrates the component when the window matches a media query.
 
 ```vue
 <script setup lang="ts">
@@ -117,8 +117,8 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 <template>
   <div>
     <!--
-      ウィンドウ幅が 768px 以上のときに
-      hydration がトリガーされます。
+      Hydration will be triggered when
+      the window width is greater than or equal to 768px.
     -->
     <LazyHydrationMyComponent hydrate-on-media-query="(min-width: 768px)" />
   </div>
@@ -126,12 +126,12 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 ```
 
 ::note
-内部的には、Vue 組み込みの [`hydrateOnMediaQuery` 戦略](https://vuejs.org/guide/components/async.html#hydrate-on-media-query)を使用しています。
+Under the hood, this uses Vue's built-in [`hydrateOnMediaQuery` strategy](https://vuejs.org/guide/components/async.html#hydrate-on-media-query).
 ::
 
-### 時間戦略
+### Time Strategy
 
-指定された遅延（ミリ秒単位）後にコンポーネントを hydrate します。
+Hydrates the component after a specified delay (in milliseconds).
 
 ```vue
 <script setup lang="ts">
@@ -143,17 +143,17 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 
 <template>
   <div>
-    <!-- 1000ms 後に hydration がトリガーされます。 -->
+    <!-- Hydration is triggered after 1000ms. -->
     <LazyHydrationMyComponent :hydrate-after="1000" />
   </div>
 </template>
 ```
 
-時間戦略は、特定の時間だけ待つことができるコンポーネント向けです。
+Time strategy is for components that can wait a specific amount of time.
 
-### If 戦略
+### If Strategy
 
-ブール条件に基づいてコンポーネントを hydrate します。
+Hydrates the component based on a boolean condition.
 
 ```vue
 <script setup lang="ts">
@@ -165,24 +165,24 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 const isReady = ref(false)
 
 function myFunction() {
-  // カスタム hydration 戦略をトリガー...
+  // Trigger custom hydration strategy...
   isReady.value = true
 }
 </script>
 
 <template>
   <div>
-    <!-- isReady が true になったときに hydration がトリガーされます。 -->
+    <!-- Hydration is triggered when isReady becomes true. -->
     <LazyHydrationMyComponent :hydrate-when="isReady" />
   </div>
 </template>
 ```
 
-If 戦略は、常に hydrate する必要がない可能性のあるコンポーネントに最適です。
+If strategy is best for components that might not always need to be hydrated.
 
-### 無効化
+### Never Hydrate
 
-コンポーネントを絶対に hydrate しません。
+Never hydrates the component.
 
 ```vue
 <script setup lang="ts">
@@ -194,15 +194,15 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 
 <template>
   <div>
-    <!-- このコンポーネントは Vue によって hydrate されることはありません。 -->
+    <!-- This component will never be hydrated by Vue. -->
     <LazyHydrationMyComponent />
   </div>
 </template>
 ```
 
-### Hydration イベントのリスニング
+### Listening to Hydration Events
 
-すべての遅延 hydration コンポーネントは、hydrate されたときに `@hydrated` イベントを発行します。
+All delayed hydration components emit a `@hydrated` event when they are hydrated.
 
 ```vue
 <script setup lang="ts">
@@ -212,7 +212,7 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(
 )
 
 function onHydrate() {
-  console.log("コンポーネントが hydrate されました!")
+  console.log("Component has been hydrated!")
 }
 </script>
 
@@ -226,10 +226,10 @@ function onHydrate() {
 </template>
 ```
 
-## パラメーター
+## Parameters
 
 ::warning
-コンパイラーがこのマクロを正しく認識することを確実にするため、外部変数の使用を避けてください。以下のアプローチはマクロが正しく認識されない原因となります:
+To ensure that the compiler correctly recognizes this macro, avoid using external variables. The following approach will prevent the macro from being properly recognized:
 
 ```vue
 <script setup lang="ts">
@@ -245,15 +245,15 @@ const LazyHydrationMyComponent = defineLazyHydrationComponent(strategy, source)
 - **Type**: `'visible' | 'idle' | 'interaction' | 'mediaQuery' | 'if' | 'time' | 'never'`
 - **Required**: `true`
 
-| 戦略      | 説明                                                    |
+| Strategy      | Description                                                    |
 |---------------|----------------------------------------------------------------|
-| `visible`     | コンポーネントがビューポート内で表示されたときに hydrate します。   |
-| `idle`        | ブラウザーがアイドル状態のときまたは遅延後に hydrate します。            |
-| `interaction` | ユーザーのインタラクション（例: クリック、ホバー）時に hydrate します。           |
-| `mediaQuery`  | 指定されたメディアクエリ条件が満たされたときに hydrate します。      |
-| `if`          | 指定されたブール条件が満たされたときに hydrate します。            |
-| `time`        | 指定された時間遅延後に hydrate します。                         |
-| `never`       | Vue がコンポーネントを hydrate することを防ぎます。                     |
+| `visible`     | Hydrates when the component becomes visible in the viewport.   |
+| `idle`        | Hydrates when the browser is idle or after a delay.            |
+| `interaction` | Hydrates upon user interaction (e.g., click, hover).           |
+| `mediaQuery`  | Hydrates when the specified media query condition is met.      |
+| `if`          | Hydrates when a specified boolean condition is met.            |
+| `time`        | Hydrates after a specified time delay.                         |
+| `never`       | Prevents Vue from hydrating the component.                     |
 
 ### `source`
 

@@ -1,6 +1,6 @@
 ---
 title: 'updateAppConfig'
-description: 'ランタイムで App Config を更新します。'
+description: 'Update the App Config at runtime.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,10 +9,10 @@ links:
 ---
 
 ::note
-深い割り当てを使用して [`app.config`](/docs/guide/directory-structure/app-config) を更新します。既存の（ネストされた）プロパティは保持されます。
+Updates the [`app.config`](/docs/guide/directory-structure/app-config) using deep assignment. Existing (nested) properties will be preserved.
 ::
 
-## 使用方法
+## Usage
 
 ```js
 const appConfig = useAppConfig() // { foo: 'bar' }

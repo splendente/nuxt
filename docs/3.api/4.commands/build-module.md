@@ -1,6 +1,6 @@
 ---
 title: 'nuxt build-module'
-description: 'Nuxt モジュールを公開前にビルドするための Nuxt コマンドです。'
+description: 'Nuxt command to build your Nuxt module before publishing.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,29 +14,29 @@ npx nuxt build-module [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|ver
 ```
 <!--/build-module-cmd-->
 
-`build-module` コマンドは `@nuxt/module-builder` を実行して、**nuxt-module** の完全なビルドを含む `dist` ディレクトリを `rootDir` 内に生成します。
+The `build-module` command runs `@nuxt/module-builder` to generate `dist` directory within your `rootDir` that contains the full build for your **nuxt-module**.
 
-## 引数
+## Arguments
 
 <!--build-module-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/build-module-args-->
 
-## オプション
+## Options
 
 <!--build-module-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
-`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
-`--build` | `false` | モジュールを配布用にビルドします
-`--stub` | `false` | 開発用に実際にビルドする代わりに dist をスタブ化します
-`--sourcemap` | `false` | ソースマップを生成します
-`--prepare` | `false` | モジュールをローカル開発用に準備します
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
+`--build` | `false` | Build module for distribution
+`--stub` | `false` | Stub dist instead of actually building it for development
+`--sourcemap` | `false` | Generate sourcemaps
+`--prepare` | `false` | Prepare module for local development
 <!--/build-module-opts-->
 
 ::read-more{to="https://github.com/nuxt/module-builder" icon="i-simple-icons-github" target="\_blank"}
-`@nuxt/module-builder` についてもっと読む。
+Read more about `@nuxt/module-builder`.
 ::

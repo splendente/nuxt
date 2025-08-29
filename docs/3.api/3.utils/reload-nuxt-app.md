@@ -1,6 +1,6 @@
 ---
 title: 'reloadNuxtApp'
-description: reloadNuxtApp はページのハードリロードを実行します。
+description: reloadNuxtApp will perform a hard reload of the page.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,16 +9,16 @@ links:
 ---
 
 ::note
-`reloadNuxtApp` は、アプリのハードリロードを実行し、サーバーからページとその依存関係を再リクエストします。
+`reloadNuxtApp` will perform a hard reload of your app, re-requesting a page and its dependencies from the server.
 ::
 
-デフォルトでは、アプリの現在の `state`（つまり、`useState` でアクセスできる任意の状態）も保存します。
+By default, it will also save the current `state` of your app (that is, any state you could access with `useState`).
 
 ::read-more{to="/docs/guide/going-further/experimental-features#restorestate" icon="i-lucide-star"}
-`nuxt.config` ファイルで `experimental.restoreState` オプションを有効にすることで、この状態の実験的な復元を有効にできます。
+You can enable experimental restoration of this state by enabling the `experimental.restoreState` option in your `nuxt.config` file.
 ::
 
-## 型
+## Type
 
 ```ts
 reloadNuxtApp(options?: ReloadNuxtAppOptions)
@@ -31,44 +31,44 @@ interface ReloadNuxtAppOptions {
 }
 ```
 
-### `options` (オプション)
+### `options` (optional)
 
-**型**: `ReloadNuxtAppOptions`
+**Type**: `ReloadNuxtAppOptions`
 
-以下のプロパティを受け取るオブジェクト:
+An object accepting the following properties:
 
-- `path` (オプション)
+- `path` (optional)
 
-  **型**: `string`
+  **Type**: `string`
 
-  **デフォルト**: `window.location.pathname`
+  **Default**: `window.location.pathname`
 
-  リロードするパス（現在のパスがデフォルト）。これが現在のウィンドウロケーションと異なる場合、
-  ナビゲーションをトリガーし、ブラウザ履歴にエントリを追加します。
+  The path to reload (defaulting to the current path). If this is different from the current window location it
+  will trigger a navigation and add an entry in the browser history.
 
-- `ttl` (オプション)
+- `ttl` (optional)
 
-  **型**: `number`
+  **Type**: `number`
 
-  **デフォルト**: `10000`
+  **Default**: `10000`
 
-  今後のリロードリクエストを無視するミリ秒数。この期間内に再度呼び出された場合、
-  `reloadNuxtApp` はアプリをリロードしません。リロードループを回避するためです。
+  The number of milliseconds in which to ignore future reload requests. If called again within this time period,
+  `reloadNuxtApp` will not reload your app to avoid reload loops.
 
-- `force` (オプション)
+- `force` (optional)
 
-  **型**: `boolean`
+  **Type**: `boolean`
 
-  **デフォルト**: `false`
+  **Default**: `false`
 
-  このオプションは、リロードループ保護を完全にバイパスし、以前に指定された TTL 内でリロードが発生した場合でも
-  強制的にリロードを実行することを可能にします。
+  This option allows bypassing reload loop protection entirely, forcing a reload even if one has occurred within
+  the previously specified TTL.
 
-- `persistState` (オプション)
+- `persistState` (optional)
 
-  **型**: `boolean`
+  **Type**: `boolean`
 
-  **デフォルト**: `false`
+  **Default**: `false`
 
-  現在の Nuxt 状態を sessionStorage（`nuxt:reload:state` として）にダンプするかどうか。デフォルトでは、
-  `experimental.restoreState` も設定されていない限り、または状態の復元を自分で処理しない限り、リロード時に効果はありません。
+  Whether to dump the current Nuxt state to sessionStorage (as `nuxt:reload:state`). By default this will have no
+  effect on reload unless `experimental.restoreState` is also set, or unless you handle restoring the state yourself.

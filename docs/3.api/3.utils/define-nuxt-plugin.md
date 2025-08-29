@@ -1,6 +1,6 @@
 ---
 title: "defineNuxtPlugin"
-description: defineNuxtPlugin() は Nuxt プラグインを作成するためのヘルパー関数です。
+description: defineNuxtPlugin() is a helper function for creating Nuxt plugins.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,17 +8,17 @@ links:
     size: xs
 ---
 
-`defineNuxtPlugin` は、機能強化と型安全性を備えた Nuxt プラグインを作成するためのヘルパー関数です。このユーティリティは、異なるプラグイン形式を、Nuxt のプラグインシステム内でシームレスに動作する一貫した構造に正規化します。
+`defineNuxtPlugin` is a helper function for creating Nuxt plugins with enhanced functionality and type safety. This utility normalizes different plugin formats into a consistent structure that works seamlessly within Nuxt's plugin system.
 
 ```ts twoslash [plugins/hello.ts]
 export default defineNuxtPlugin((nuxtApp) => {
-  // nuxtApp で何かを行う
+  // Doing something with nuxtApp
 })
 ```
 
 :read-more{to="/docs/guide/directory-structure/plugins#creating-plugins"}
 
-## 型
+## Type
 
 ```ts
 defineNuxtPlugin<T extends Record<string, unknown>>(plugin: Plugin<T> | ObjectPlugin<T>): Plugin<T> & ObjectPlugin<T>
@@ -39,34 +39,34 @@ interface ObjectPlugin<T> {
 }
 ```
 
-## パラメーター
+## Parameters
 
-**plugin**: プラグインは2つの方法で定義できます:
-1. **関数プラグイン**: [`NuxtApp`](/docs/guide/going-further/internals#the-nuxtapp-interface) インスタンスを受け取る関数で、[`NuxtApp`](/docs/guide/going-further/internals#the-nuxtapp-interface) インスタンス上でヘルパーを提供したい場合は、[`provide`](/docs/guide/directory-structure/plugins#providing-helpers) プロパティを持つオブジェクトと共に promise を返すことができます。
-2. **オブジェクトプラグイン**: `name`、`enforce`、`dependsOn`、`order`、`parallel`、`setup`、`hooks`、`env` など、プラグインの動作を設定するための様々なプロパティを含めることができるオブジェクトです。
+**plugin**: A plugin can be defined in two ways:
+1. **Function Plugin**: A function that receives the [`NuxtApp`](/docs/guide/going-further/internals#the-nuxtapp-interface) instance and can return a promise with an potential object with a [`provide`](/docs/guide/directory-structure/plugins#providing-helpers) property if you want to provide a helper on [`NuxtApp`](/docs/guide/going-further/internals#the-nuxtapp-interface) instance.
+2. **Object Plugin**: An object that can include various properties to configure the plugin's behavior, such as `name`, `enforce`, `dependsOn`, `order`, `parallel`, `setup`, `hooks`, and `env`.
 
-| プロパティ           | 型                                                                 | 必須 | 説明                                                                                                     |
+| Property           | Type                                                                 | Required | Description                                                                                                     |
 | ------------------ | -------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
-| `name` | `string` | `false` | プラグインのオプション名で、デバッグと依存関係管理に便利です。 |
-| `enforce` | `'pre'` \| `'default'` \| `'post'` | `false` | 他のプラグインとの相対的な実行タイミングを制御します。 |
-| `dependsOn` | `string[]` | `false` | このプラグインが依存するプラグイン名の配列。適切な実行順序を保証します。 |
-| `order` | `number` | `false` | プラグインの順序をより細かく制御でき、上級ユーザーのみが使用すべきです。**`enforce` の値をオーバーライドし、プラグインのソートに使用されます。** |
-| `parallel` | `boolean` | `false` | 他の並列プラグインと並行してプラグインを実行するかどうか。 |
-| `setup` | `Plugin<T>`{lang="ts"}  | `false` | 関数プラグインに相当するメインプラグイン関数。 |
-| `hooks` | `Partial<RuntimeNuxtHooks>`{lang="ts"}  | `false` | 直接登録する Nuxt アプリランタイムフック。 |
-| `env` | `{ islands?: boolean }`{lang="ts"}  | `false` | サーバー専用または island コンポーネントをレンダリングするときにプラグインを実行したくない場合は、この値を `false` に設定します。 |
+| `name` | `string` | `false` | Optional name for the plugin, useful for debugging and dependency management. |
+| `enforce` | `'pre'` \| `'default'` \| `'post'` | `false` | Controls when the plugin runs relative to other plugins. |
+| `dependsOn` | `string[]` | `false` | Array of plugin names this plugin depends on. Ensures proper execution order. |
+| `order` | `number` | `false` | This allows more granular control over plugin order and should only be used by advanced users. **It overrides the value of `enforce` and is used to sort plugins.** |
+| `parallel` | `boolean` | `false` | Whether to execute the plugin in parallel with other parallel plugins. |
+| `setup` | `Plugin<T>`{lang="ts"}  | `false` | The main plugin function, equivalent to a function plugin. |
+| `hooks` | `Partial<RuntimeNuxtHooks>`{lang="ts"}  | `false` | Nuxt app runtime hooks to register directly. |
+| `env` | `{ islands?: boolean }`{lang="ts"}  | `false` | Set this value to `false` if you don't want the plugin to run when rendering server-only or island components. |
 
 :video-accordion{title="Watch a video from Alexander Lichter about the Object Syntax for Nuxt plugins" videoId="2aXZyXB1QGQ"}
 
-## 例
+## Examples
 
-### 基本的な使用方法
+### Basic Usage
 
-以下の例は、グローバル機能を追加するシンプルなプラグインを示しています:
+The example below demonstrates a simple plugin that adds global functionality:
 
 ```ts twoslash [plugins/hello.ts]
 export default defineNuxtPlugin((nuxtApp) => {
-  // グローバルメソッドを追加
+  // Add a global method
   return {
     provide: {
       hello: (name: string) => `Hello ${name}!`
@@ -75,16 +75,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 ```
 
-### オブジェクト構文プラグイン
+### Object Syntax Plugin
 
-以下の例は、高度な設定でオブジェクト構文を示しています:
+The example below shows the object syntax with advanced configuration:
 
 ```ts twoslash [plugins/advanced.ts]
 export default defineNuxtPlugin({
   name: 'my-plugin',
   enforce: 'pre',
   async setup (nuxtApp) {
-    // プラグインセットアップロジック
+    // Plugin setup logic
     const data = await $fetch('/api/config')
     
     return {
@@ -95,7 +95,7 @@ export default defineNuxtPlugin({
   },
   hooks: {
     'app:created'() {
-      console.log('アプリが作成されました!')
+      console.log('App created!')
     }
   },
 })

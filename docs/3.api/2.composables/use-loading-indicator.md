@@ -1,6 +1,6 @@
 ---
 title: 'useLoadingIndicator'
-description: この composable はアプリページの読み込み状態へのアクセスを提供します。
+description: This composable gives you access to the loading state of the app page.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,60 +8,60 @@ links:
     size: xs
 ---
 
-## 説明
+## Description
 
-ページの読み込み状態を返す composable です。[`<NuxtLoadingIndicator>`](/docs/api/components/nuxt-loading-indicator) によって使用され、制御可能です。
-[`page:loading:start`](/docs/api/advanced/hooks#app-hooks-runtime) と [`page:loading:end`](/docs/api/advanced/hooks#app-hooks-runtime) にフックして状態を変更します。
+A composable which returns the loading state of the page. Used by [`<NuxtLoadingIndicator>`](/docs/api/components/nuxt-loading-indicator) and controllable.
+It hooks into [`page:loading:start`](/docs/api/advanced/hooks#app-hooks-runtime) and [`page:loading:end`](/docs/api/advanced/hooks#app-hooks-runtime) to change its state.
 
-## パラメーター
+## Parameters
 
-- `duration`: 読み込みバーの継続時間、ミリ秒単位（デフォルト `2000`）。
-- `throttle`: 表示と非表示のスロットリング、ミリ秒単位（デフォルト `200`）。
-- `estimatedProgress`: デフォルトでは Nuxt は 100% に近づくとバックオフします。プログレス推定をカスタマイズするためのカスタム関数を提供できます。これは読み込みバーの継続時間（上記）と経過時間を受け取る関数です。0 から 100 の値を返す必要があります。
+- `duration`: Duration of the loading bar, in milliseconds (default `2000`).
+- `throttle`: Throttle the appearing and hiding, in milliseconds (default `200`).
+- `estimatedProgress`: By default Nuxt will back off as it approaches 100%. You can provide a custom function to customize the progress estimation, which is a function that receives the duration of the loading bar (above) and the elapsed time. It should return a value between 0 and 100.
 
-## プロパティ
+## Properties
 
 ### `isLoading`
 
 - **type**: `Ref<boolean>`
-- **description**: 読み込み状態
+- **description**: The loading state
 
 ### `error`
 
 - **type**: `Ref<boolean>`
-- **description**: エラー状態
+- **description**: The error state
 
 ### `progress`
 
 - **type**: `Ref<number>`
-- **description**: プログレス状態。`0` から `100` まで。
+- **description**: The progress state. From `0` to `100`.
 
-## メソッド
+## Methods
 
 ### `start()`
 
-`isLoading` を true に設定し、`progress` 値の増加を開始します。`start` は `{ force: true }` オプションを受け入れ、インターバルをスキップして即座に読み込み状態を表示します。
+Set `isLoading` to true and start to increase the `progress` value. `start` accepts a `{ force: true }` option to skip the interval and show the loading state immediately.
 
 ### `set()`
 
-`progress` 値を特定の値に設定します。`set` は `{ force: true }` オプションを受け入れ、インターバルをスキップして即座に読み込み状態を表示します。
+Set the `progress` value to a specific value. `set` accepts a `{ force: true }` option to skip the interval and show the loading state immediately.
 
 ### `finish()`
 
-`progress` 値を `100` に設定し、すべてのタイマーとインターバルを停止し、`500` ms 後に読み込み状態をリセットします。`finish` は `{ force: true }` オプションで状態リセット前のインターバルをスキップし、`{ error: true }` で読み込みバーの色を変更して error プロパティを true に設定します。
+Set the `progress` value to `100`, stop all timers and intervals then reset the loading state `500` ms later. `finish` accepts a `{ force: true }` option to skip the interval before the state is reset, and `{ error: true }` to change the loading bar color and set the error property to true.
 
 ### `clear()`
 
-`finish()` によって使用されます。composable によって使用されるすべてのタイマーとインターバルをクリアします。
+Used by `finish()`. Clear all timers and intervals used by the composable.
 
-## 例
+## Example
 
 ```vue
 <script setup lang="ts">
   const { progress, isLoading, start, finish, clear } = useLoadingIndicator({
     duration: 2000,
     throttle: 200,
-    // これはデフォルトのプログレス計算方法です
+    // This is how progress is calculated by default
     estimatedProgress: (duration, elapsed) => (2 / Math.PI * 100) * Math.atan(elapsed / duration * 100 / 50)
   })
 </script>
@@ -70,8 +70,8 @@ links:
 ```vue
 <script setup lang="ts">
   const { start, set } = useLoadingIndicator()
-  // set(0, { force: true }) と同じ
-  // プログレスを 0 に設定し、即座に読み込みを表示
+  // same as set(0, { force: true })
+  // set the progress to 0, and show loading immediately
   start({ force: true })
 </script>
 ```

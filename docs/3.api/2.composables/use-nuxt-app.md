@@ -1,6 +1,6 @@
 ---
 title: 'useNuxtApp'
-description: 'Nuxt アプリケーションの共有ランタイムコンテキストにアクセスします。'
+description: 'Access the shared runtime context of the Nuxt Application.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,7 +8,7 @@ links:
     size: xs
 ---
 
-`useNuxtApp` は、[Nuxt コンテキスト](/docs/guide/going-further/nuxt-app#the-nuxt-context)としても知られる Nuxt の共有ランタイムコンテキストにアクセスする方法を提供する組み込み composable です。これはクライアントとサーバーの両方で使用できます（ただし Nitro ルート内では使用できません）。Vue アプリインスタンス、ランタイムフック、ランタイム設定変数、`ssrContext` や `payload` などの内部状態にアクセスするのに役立ちます。
+`useNuxtApp` is a built-in composable that provides a way to access shared runtime context of Nuxt, also known as the [Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context), which is available on both client and server side (but not within Nitro routes). It helps you access the Vue app instance, runtime hooks, runtime config variables and internal states, such as `ssrContext` and `payload`.
 
 ```vue [app.vue]
 <script setup lang="ts">
@@ -16,7 +16,7 @@ const nuxtApp = useNuxtApp()
 </script>
 ```
 
-ランタイムコンテキストがスコープ内で利用できない場合、`useNuxtApp` は呼び出されると例外をスローします。`nuxtApp` を必要としない composable の場合、または例外なしにコンテキストが利用可能かどうかを単純に確認したい場合は、代わりに [`tryUseNuxtApp`](#tryusenuxtapp) を使用できます。
+If runtime context is unavailable in your scope, `useNuxtApp` will throw an exception when called. You can use [`tryUseNuxtApp`](#tryusenuxtapp) instead for composables that do not require `nuxtApp`, or to simply check if context is available or not without an exception.
 
 <!--
 note
@@ -26,36 +26,36 @@ By default, the shared runtime context of Nuxt is namespaced under the [`buildId
 
 - `appName`: an optional application name. If you do not provide it, the Nuxt `buildId` option is used. Otherwise, it must match with an existing `buildId`. -->
 
-## メソッド
+## Methods
 
 ### `provide (name, value)`
 
-`nuxtApp` は [Nuxt プラグイン](/docs/guide/directory-structure/plugins)を使用して拡張できるランタイムコンテキストです。`provide` 関数を使用して Nuxt プラグインを作成し、Nuxt アプリケーション全体のすべての composable とコンポーネントで値とヘルパーメソッドを利用可能にできます。
+`nuxtApp` is a runtime context that you can extend using [Nuxt plugins](/docs/guide/directory-structure/plugins). Use the `provide` function to create Nuxt plugins to make values and helper methods available in your Nuxt application across all composables and components.
 
-`provide` 関数は `name` と `value` パラメーターを受け取ります。
+`provide` function accepts `name` and `value` parameters.
 
 ```js
 const nuxtApp = useNuxtApp()
 nuxtApp.provide('hello', (name) => `Hello ${name}!`)
 
-// "Hello name!" を出力
+// Prints "Hello name!"
 console.log(nuxtApp.$hello('name'))
 ```
 
-上記の例でわかるように、`$hello` は `nuxtApp` コンテキストの新しいカスタム部分になり、`nuxtApp` がアクセス可能なすべての場所で利用できます。
+As you can see in the example above, `$hello` has become the new and custom part of `nuxtApp` context and it is available in all places where `nuxtApp` is accessible.
 
 ### `hook(name, cb)`
 
-`nuxtApp` で利用可能なフックは、Nuxt アプリケーションのランタイム側面をカスタマイズできます。Vue.js composables や [Nuxt プラグイン](/docs/guide/directory-structure/plugins)でランタイムフックを使用して、レンダリングライフサイクルにフックできます。
+Hooks available in `nuxtApp` allows you to customize the runtime aspects of your Nuxt application. You can use runtime hooks in Vue.js composables and [Nuxt plugins](/docs/guide/directory-structure/plugins) to hook into the rendering lifecycle.
 
-`hook` 関数は、レンダリングライフサイクルの特定のポイントにフックしてカスタムロジックを追加するのに便利です。`hook` 関数は主に Nuxt プラグインを作成するときに使用されます。
+`hook` function is useful for adding custom logic by hooking into the rendering lifecycle at a specific point. `hook` function is mostly used when creating Nuxt plugins.
 
-Nuxt によって呼び出される利用可能なランタイムフックについては、[ランタイムフック](/docs/api/advanced/hooks#app-hooks-runtime)を参照してください。
+See [Runtime Hooks](/docs/api/advanced/hooks#app-hooks-runtime) for available runtime hooks called by Nuxt.
 
 ```ts [plugins/test.ts]
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('page:start', () => {
-    /* あなたのコードをここに書きます */
+    /* your code goes here */
   })
   nuxtApp.hook('vue:error', (..._args) => {
     console.log('vue:error')
@@ -68,42 +68,42 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 ### `callHook(name, ...args)`
 
-`callHook` は既存のフックのいずれかで呼び出されたときに Promise を返します。
+`callHook` returns a promise when called with any of the existing hooks.
 
 ```ts
 await nuxtApp.callHook('my-plugin:init')
 ```
 
-## プロパティ
+## Properties
 
-`useNuxtApp()` は、アプリを拡張およびカスタマイズし、状態、データ、変数を共有するために使用できる以下のプロパティを公開します。
+`useNuxtApp()` exposes the following properties that you can use to extend and customize your app and share state, data and variables.
 
 ### `vueApp`
 
-`vueApp` は `nuxtApp` を通じてアクセスできるグローバルな Vue.js [アプリケーションインスタンス](https://vuejs.org/api/application.html#application-api)です。
+`vueApp` is the global Vue.js [application instance](https://vuejs.org/api/application.html#application-api) that you can access through `nuxtApp`.
 
-いくつかの便利なメソッド:
-- [`component()`](https://vuejs.org/api/application.html#app-component) - 名前文字列とコンポーネント定義の両方を渡すとグローバルコンポーネントを登録し、名前のみを渡すとすでに登録されているものを取得します。
-- [`directive()`](https://vuejs.org/api/application.html#app-directive) - 名前文字列とディレクティブ定義の両方を渡すとグローバルカスタムディレクティブを登録し、名前のみを渡すとすでに登録されているものを取得します[(例)](/docs/guide/directory-structure/plugins#vue-directives)。
-- [`use()`](https://vuejs.org/api/application.html#app-use) - **[Vue.js プラグイン](https://vuejs.org/guide/reusability/plugins.html)**をインストールします[(例)](/docs/guide/directory-structure/plugins#vue-plugins)。
+Some useful methods:
+- [`component()`](https://vuejs.org/api/application.html#app-component) - Registers a global component if passing both a name string and a component definition, or retrieves an already registered one if only the name is passed.
+- [`directive()`](https://vuejs.org/api/application.html#app-directive) - Registers a global custom directive if passing both a name string and a directive definition, or retrieves an already registered one if only the name is passed[(example)](/docs/guide/directory-structure/plugins#vue-directives).
+- [`use()`](https://vuejs.org/api/application.html#app-use) - Installs a **[Vue.js Plugin](https://vuejs.org/guide/reusability/plugins.html)** [(example)](/docs/guide/directory-structure/plugins#vue-plugins).
 
 :read-more{icon="i-simple-icons-vuedotjs" to="https://vuejs.org/api/application.html#application-api"}
 
 ### `ssrContext`
 
-`ssrContext` はサーバーサイドレンダリング中に生成され、サーバーサイドでのみ利用可能です。
+`ssrContext` is generated during server-side rendering and it is only available on the server side.
 
-Nuxt は `ssrContext` を通じて以下のプロパティを公開します:
-- `url` (string) - 現在のリクエスト URL。
-- `event` ([h3js/h3](https://github.com/h3js/h3) リクエストイベント) - 現在のルートのリクエストとレスポンスにアクセス。
-- `payload` (object) - NuxtApp payload オブジェクト。
+Nuxt exposes the following properties through `ssrContext`:
+- `url` (string) -  Current request url.
+- `event` ([h3js/h3](https://github.com/h3js/h3) request event) - Access the request & response of the current route.
+- `payload` (object) - NuxtApp payload object.
 
 ### `payload`
 
-`payload` はサーバーサイドからクライアントサイドにデータと状態変数を公開します。以下のキーは、サーバーサイドから渡された後、クライアントで利用可能になります:
+`payload` exposes data and state variables from server side to client side. The following keys will be available on the client after they have been passed from the server side:
 
-- `serverRendered` (boolean) - レスポンスがサーバーサイドレンダリングされているかどうかを示します。
-- `data` (object) - [`useFetch`](/docs/api/composables/use-fetch) または [`useAsyncData`](/docs/api/composables/use-async-data) を使用して API エンドポイントからデータをフェッチすると、結果の payload に `payload.data` からアクセスできます。このデータはキャッシュされ、同じリクエストが複数回行われた場合に同じデータをフェッチすることを防ぐのに役立ちます。
+- `serverRendered` (boolean) - Indicates if response is server-side-rendered.
+- `data` (object) - When you fetch the data from an API endpoint using either [`useFetch`](/docs/api/composables/use-fetch) or [`useAsyncData`](/docs/api/composables/use-async-data) , resulting payload can be accessed from the `payload.data`. This data is cached and helps you prevent fetching the same data in case an identical request is made more than once.
 
   ::code-group
   ```vue [app.vue]
@@ -118,11 +118,11 @@ Nuxt は `ssrContext` を通じて以下のプロパティを公開します:
   ```
   ::
 
-  上記の例で [`useAsyncData`](/docs/api/composables/use-async-data) を使用して `count` の値をフェッチした後、`payload.data` にアクセスすると、そこに `{ count: 1 }` が記録されているのを確認できます。
+  After fetching the value of `count` using [`useAsyncData`](/docs/api/composables/use-async-data) in the example above, if you access `payload.data`, you will see `{ count: 1 }` recorded there.
 
-  [`ssrcontext`](#ssrcontext) から同じ `payload.data` にアクセスすると、サーバーサイドでも同じ値にアクセスできます。
+  When accessing the same `payload.data` from [`ssrcontext`](#ssrcontext), you can access the same value on the server side as well.
 
-- `state` (object) - Nuxt で [`useState`](/docs/api/composables/use-state) composable を使用して共有状態を設定すると、この状態データに `payload.state.[name-of-your-state]` を通じてアクセスできます。
+- `state` (object) - When you use [`useState`](/docs/api/composables/use-state) composable in Nuxt to set shared state, this state data is accessed through `payload.state.[name-of-your-state]`.
 
   ```ts [plugins/my-plugin.ts]
   export const useColor = () => useState<string>('color', () => 'pink')
@@ -136,11 +136,11 @@ Nuxt は `ssrContext` を通じて以下のプロパティを公開します:
 
   It is also possible to use more advanced types, such as `ref`, `reactive`, `shallowRef`, `shallowReactive` and `NuxtError`.
 
-  [Nuxt v3.4](https://nuxt.com/blog/v3-4#payload-enhancements) 以降、Nuxt でサポートされていない型に対して独自の reducer/reviver を定義することができます。
+  Since [Nuxt v3.4](https://nuxt.com/blog/v3-4#payload-enhancements), it is possible to define your own reducer/reviver for types that are not supported by Nuxt.
 
   :video-accordion{title="Watch a video from Alexander Lichter about serializing payloads, especially with regards to classes" videoId="8w6ffRBs8a4"}
 
-  以下の例では、payload プラグインを使用して [Luxon](https://moment.github.io/luxon/#/) DateTime クラスの reducer（またはシリアライザー）と reviver（またはデシリアライザー）を定義します。
+  In the example below, we define a reducer (or a serializer) and a reviver (or deserializer) for the [Luxon](https://moment.github.io/luxon/#/) DateTime class, using a payload plugin.
 
   ```ts [plugins/date-time-payload.ts]
   /**
@@ -162,7 +162,7 @@ Nuxt は `ssrContext` を通じて以下のプロパティを公開します:
 
 ### `isHydrating`
 
-`nuxtApp.isHydrating`（boolean）を使用して、Nuxt アプリがクライアントサイドで hydration 中かどうかを確認します。
+Use `nuxtApp.isHydrating` (boolean) to check if the Nuxt app is hydrating on the client side.
 
 ```ts [components/nuxt-error-boundary.ts]
 export default defineComponent({
@@ -180,10 +180,10 @@ export default defineComponent({
 ### `runWithContext`
 
 ::note
-「Nuxt instance unavailable」メッセージが表示されたためここにいる可能性があります。このメソッドは控えめに使用し、問題を引き起こしている例を報告してください。最終的にフレームワークレベルで解決できるようにするためです。
+You are likely here because you got a "Nuxt instance unavailable" message. Please use this method sparingly, and report examples that are causing issues, so that it can ultimately be solved at the framework level.
 ::
 
-`runWithContext` メソッドは、関数を呼び出して明示的な Nuxt コンテキストを提供するために使用されます。通常、Nuxt コンテキストは暗黙的に受け渡され、これについて心配する必要はありません。ただし、ミドルウェア/プラグインで複雑な `async`/`await` シナリオを扱う場合、非同期呼び出し後に現在のインスタンスが未設定になる場合があります。
+The `runWithContext` method is meant to be used to call a function and give it an explicit Nuxt context. Typically, the Nuxt context is passed around implicitly and you do not need to worry about this. However, when working with complex `async`/`await` scenarios in middleware/plugins, you can run into instances where the current instance has been unset after an async call.
 
 ```ts [middleware/auth.ts]
 export default defineNuxtRouteMiddleware(async (to, from) => {
@@ -202,21 +202,21 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 })
 ```
 
-#### 使用方法
+#### Usage
 
 ```js
 const result = nuxtApp.runWithContext(() => functionWithContext())
 ```
 
-- `functionWithContext`: 現在の Nuxt アプリケーションのコンテキストを必要とする任意の関数。このコンテキストは自動的に正しく適用されます。
+- `functionWithContext`: Any function that requires the context of the current Nuxt application. This context will be correctly applied automatically.
 
-`runWithContext` は `functionWithContext` によって返されるものを返します。
+`runWithContext` will return whatever is returned by `functionWithContext`.
 
-#### コンテキストのより詳細な説明
+#### A Deeper Explanation of Context
 
-Vue.js Composition API（および同様に Nuxt composable）は、暗黙的なコンテキストに依存して動作します。ライフサイクル中に、Vue は現在のコンポーネントの一時的なインスタンス（および Nuxt の nuxtApp の一時的なインスタンス）をグローバル変数に設定し、同じ tick で解除します。サーバーサイドでレンダリングする際、異なるユーザーからの複数のリクエストと nuxtApp が同じグローバルコンテキストで実行されます。このため、Nuxt と Vue は、2つのユーザーやコンポーネント間で共有参照がリークすることを避けるために、このグローバルインスタンスをすぐに解除します。
+Vue.js Composition API (and Nuxt composables similarly) work by depending on an implicit context. During the lifecycle, Vue sets the temporary instance of the current component (and Nuxt temporary instance of nuxtApp) to a global variable and unsets it in same tick. When rendering on the server side, there are multiple requests from different users and nuxtApp running in a same global context. Because of this, Nuxt and Vue immediately unset this global instance to avoid leaking a shared reference between two users or components.
 
-これが意味することは何でしょうか？ Composition API と Nuxt Composable は、ライフサイクル中および非同期操作前の同じ tick 内でのみ利用可能です：
+What it does mean? The Composition API and Nuxt Composables are only available during lifecycle and in same tick before any async operation:
 
 ```js
 // --- Vue internal ---
@@ -232,9 +232,9 @@ async function setup() {
 }
 ```
 
-これに対する古典的な解決策は、最初の呼び出し時に現在のインスタンスを `const instance = getCurrentInstance()` のようなローカル変数にキャッシュし、次の composable 呼び出しでそれを使用することです。しかし問題は、ネストされた composable 呼び出しがすべて、明示的にインスタンスを引数として受け取る必要があり、composition-api の暗黙的なコンテキストに依存できないことです。これは composable の設計上の制限であり、それ自体が問題というわけではありません。
+The classic solution to this, is caching the current instance on first call to a local variable like `const instance = getCurrentInstance()` and use it in the next composable call but the issue is that any nested composable calls now needs to explicitly accept the instance as an argument and not depend on the implicit context of composition-api. This is design limitation with composables and not an issue per-se.
 
-この制限を克服するため、Vue はアプリケーションコードをコンパイルする際に舞台裏で作業を行い、`<script setup>` の各呼び出し後にコンテキストを復元します：
+To overcome this limitation, Vue does some behind the scenes work when compiling our application code and restores context after each call for `<script setup>`:
 
 ```js
 const __instance = getCurrentInstance() // Generated by Vue compiler
@@ -244,43 +244,43 @@ __restoreInstance(__instance) // Generated by Vue compiler
 getCurrentInstance() // Still works!
 ```
 
-Vue が実際に何を行うかについてのより良い説明については、[unjs/unctx#2 (comment)](https://github.com/unjs/unctx/issues/2#issuecomment-942193723) を参照してください。
+For a better description of what Vue actually does, see [unjs/unctx#2 (comment)](https://github.com/unjs/unctx/issues/2#issuecomment-942193723).
 
-#### 解決策
+#### Solution
 
-ここで `runWithContext` を使用して、`<script setup>` の動作と同様にコンテキストを復元できます。
+This is where `runWithContext` can be used to restore context, similarly to how `<script setup>` works.
 
-Nuxt は内部的に [unjs/unctx](https://github.com/unjs/unctx) を使用して、プラグインやミドルウェアで Vue と同様の composable をサポートします。これにより、`navigateTo()` などの composable が `nuxtApp` を直接渡すことなく動作し、Composition API の DX およびパフォーマンスの利点を Nuxt フレームワーク全体にもたらします。
+Nuxt internally uses [unjs/unctx](https://github.com/unjs/unctx) to support composables similar to Vue for plugins and middleware. This enables composables like `navigateTo()` to work without directly passing `nuxtApp` to them - bringing the DX and performance benefits of Composition API to the whole Nuxt framework.
 
-Nuxt composable は Vue Composition API と同じ設計を持っているため、この変換を魔法のように行うための同様の解決策が必要です。[unjs/unctx#2](https://github.com/unjs/unctx/issues/2)（提案）、[unjs/unctx#4](https://github.com/unjs/unctx/pull/4)（変換実装）、[nuxt/framework#3884](https://github.com/nuxt/framework/pull/3884)（Nuxt への統合）を確認してください。
+Nuxt composables have the same design as the Vue Composition API and therefore need a similar solution to magically do this transform. Check out [unjs/unctx#2](https://github.com/unjs/unctx/issues/2) (proposal), [unjs/unctx#4](https://github.com/unjs/unctx/pull/4) (transform implementation), and [nuxt/framework#3884](https://github.com/nuxt/framework/pull/3884) (Integration to Nuxt).
 
-Vue は現在、async/await 使用における `<script setup>` の非同期コンテキスト復元のみをサポートしています。Nuxt では、`defineNuxtPlugin()` と `defineNuxtRouteMiddleware()` の変換サポートが追加されました。これは、それらを使用すると Nuxt がコンテキスト復元で自動的に変換することを意味します。
+Vue currently only supports async context restoration for `<script setup>` for async/await usage. In Nuxt, the transform support for `defineNuxtPlugin()` and `defineNuxtRouteMiddleware()` was added, which means when you use them Nuxt automatically transforms them with context restoration.
 
-#### 残りの問題
+#### Remaining Issues
 
-`unjs/unctx` の自動的なコンテキスト復元への変換は、`await` を含む `try/catch` 文でバグがあるようで、最終的に上記で提案された回避策の要件を削除するために解決される必要があります。
+The `unjs/unctx` transformation to automatically restore context seems buggy with `try/catch` statements containing `await` which ultimately needs to be solved in order to remove the requirement of the workaround suggested above.
 
-#### ネイティブ非同期コンテキスト
+#### Native Async Context
 
-新しい実験的機能を使用して、[Node.js `AsyncLocalStorage`](https://nodejs.org/api/async_context.html#class-asynclocalstorage) と新しい unctx サポートを使用してネイティブ非同期コンテキストサポートを有効にし、変換や手動での引き渡し/コンテキストでの呼び出しを必要とせずに、**任意のネストされた非同期 composable** で非同期コンテキストを**ネイティブ**に利用可能にすることができます。
+Using a new experimental feature, it is possible to enable native async context support using [Node.js `AsyncLocalStorage`](https://nodejs.org/api/async_context.html#class-asynclocalstorage) and new unctx support to make async context available **natively** to **any nested async composable** without needing a transform or manual passing/calling with context.
 
 ::tip
-ネイティブ非同期コンテキストサポートは現在 Bun と Node で動作します。
+Native async context support works currently in Bun and Node.
 ::
 
 :read-more{to="/docs/guide/going-further/experimental-features#asynccontext"}
 
 ## tryUseNuxtApp
 
-この関数は `useNuxtApp` とまったく同じように動作しますが、例外をスローする代わりに、コンテキストが利用できない場合は `null` を返します。
+This function works exactly the same as `useNuxtApp`, but returns `null` if context is unavailable instead of throwing an exception.
 
-`nuxtApp` を必要としない composable に使用したり、例外なしにコンテキストが利用可能かどうかを単純に確認したりできます。
+You can use it for composables that do not require `nuxtApp`, or to simply check if context is available or not without an exception.
 
-使用例：
+Example usage:
 
 ```ts [composable.ts]
 export function useStandType() {
-  // クライアントでは常に動作
+  // Always works on the client
   if (tryUseNuxtApp()) {
     return useRuntimeConfig().public.STAND_TYPE
   } else {

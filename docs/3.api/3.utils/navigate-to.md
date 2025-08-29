@@ -1,6 +1,6 @@
 ---
 title: "navigateTo"
-description: navigateTo は、ユーザーをプログラマティックにナビゲートするヘルパー関数です。
+description: navigateTo is a helper function that programmatically navigates users.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,29 +8,29 @@ links:
     size: xs
 ---
 
-## 使用方法
+## Usage
 
-`navigateTo` は、サーバーサイドとクライアントサイドの両方で利用できます。[Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context) 内で、または直接使用してページナビゲーションを実行できます。
+`navigateTo` is available on both server side and client side. It can be used within the [Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context), or directly, to perform page navigation.
 
 ::warning
-`navigateTo` を呼び出すときは、必ず結果に `await` または `return` を使用してください。
+Make sure to always use `await` or `return` on result of `navigateTo` when calling it.
 ::
 
 ::note
-`navigateTo` は Nitro ルート内では使用できません。Nitro ルートでサーバーサイドリダイレクトを実行するには、代わりに [`sendRedirect`](https://h3.dev/utils/response#sendredirectevent-location-code) を使用してください。
+`navigateTo` cannot be used within Nitro routes. To perform a server-side redirect in Nitro routes, use [`sendRedirect`](https://h3.dev/utils/response#sendredirectevent-location-code) instead.
 ::
 
-### Vue コンポーネント内
+### Within a Vue Component
 
 ```vue
 <script setup lang="ts">
-// 'to' を文字列として渡す
+// passing 'to' as a string
 await navigateTo('/search')
 
-// ... またはルートオブジェクトとして
+// ... or as a route object
 await navigateTo({ path: '/search' })
 
-// ... またはクエリパラメーターを含むルートオブジェクトとして
+// ... or as a route object with query parameters
 await navigateTo({
   path: '/search',
   query: {
@@ -41,67 +41,67 @@ await navigateTo({
 </script>
 ```
 
-### ルートミドルウェア内
+### Within Route Middleware
 
 ```ts
 export default defineNuxtRouteMiddleware((to, from) => {
   if (to.path !== '/search') {
-    // リダイレクトコードを '301 Moved Permanently' に設定
+    // setting the redirect code to '301 Moved Permanently'
     return navigateTo('/search', { redirectCode: 301 })
   }
 })
 ```
 
-ルートミドルウェア内で `navigateTo` を使用する際は、ミドルウェアの実行フローが正常に動作するよう、**その結果を return する**必要があります。
+When using `navigateTo` within route middleware, you must **return its result** to ensure the middleware execution flow works correctly.
 
-例えば、以下の実装は**期待どおりに動作しません**:
+For example, the following implementation **will not work as expected**:
 
 ```ts
 export default defineNuxtRouteMiddleware((to, from) => {
   if (to.path !== '/search') {
-    // ❌ これは期待どおりに動作しません
+    // ❌ This will not work as expected
     navigateTo('/search', { redirectCode: 301 })
     return
   }
 })
 ```
 
-この場合、`navigateTo` は実行されますが return されないため、予期しない動作を引き起こす可能性があります。
+In this case, `navigateTo` will be executed but not returned, which may lead to unexpected behavior.
 
 :read-more{to="/docs/guide/directory-structure/middleware"}
 
-### 外部 URL へのナビゲーション
+### Navigating to an External URL
 
-`navigateTo` の `external` パラメーターは、URL へのナビゲーションがどのように処理されるかに影響します:
+The `external` parameter in `navigateTo` influences how navigating to URLs is handled:
 
-- **`external: true` なし**:
-  - 内部 URL は期待どおりにナビゲーションされます。
-  - 外部 URL はエラーをスローします。
+- **Without `external: true`**:
+  - Internal URLs navigate as expected.
+  - External URLs throw an error.
 
-- **`external: true` あり**:
-  - 内部 URL はフルページリロードでナビゲーションされます。
-  - 外部 URL は期待どおりにナビゲーションされます。
+- **With `external: true`**:
+  - Internal URLs navigate with a full-page reload.
+  - External URLs navigate as expected.
 
-#### 例
+#### Example
 
 ```vue
 <script setup lang="ts">
-// エラーがスローされます;
-// 外部 URL へのナビゲーションはデフォルトでは許可されていません
+// will throw an error;
+// navigating to an external URL is not allowed by default
 await navigateTo('https://nuxt.com')
 
-// 'external' パラメーターを 'true' に設定すると正常にリダイレクトされます
+// will redirect successfully with the 'external' parameter set to 'true'
 await navigateTo('https://nuxt.com', {
   external: true
 })
 </script>
 ```
 
-### 新しいタブでページを開く
+### Opening a Page in a New Tab
 
 ```vue
 <script setup lang="ts">
-// 'https://nuxt.com' を新しいタブで開きます
+// will open 'https://nuxt.com' in a new tab
 await navigateTo('https://nuxt.com', {
   open: {
     target: '_blank',
@@ -114,7 +114,7 @@ await navigateTo('https://nuxt.com', {
 </script>
 ```
 
-## 型
+## Type
 
 ```ts
 function navigateTo(
@@ -144,87 +144,87 @@ type OpenWindowFeatures = {
   & XOR<{ top?: number }, { screenY?: number }>
 ```
 
-## パラメーター
+## Parameters
 
 ### `to`
 
-**型**: [`RouteLocationRaw`](https://router.vuejs.org/api/interfaces/RouteLocationOptions.html#Interface-RouteLocationOptions) | `undefined` | `null`
+**Type**: [`RouteLocationRaw`](https://router.vuejs.org/api/interfaces/RouteLocationOptions.html#Interface-RouteLocationOptions) | `undefined` | `null`
 
-**デフォルト**: `'/'`
+**Default**: `'/'`
 
-`to` は、リダイレクト先のプレーンな文字列またはルートオブジェクトです。`undefined` または `null` として渡された場合、デフォルトで `'/'` になります。
+`to` can be a plain string or a route object to redirect to. When passed as `undefined` or `null`, it will default to `'/'`.
 
-#### 例
+#### Example
 
 ```ts
-// URL を直接渡すと '/blog' ページにリダイレクトされます
+// Passing the URL directly will redirect to the '/blog' page
 await navigateTo('/blog')
 
-// ルートオブジェクトを使用すると、'blog' という名前のルートにリダイレクトされます
+// Using the route object, will redirect to the route with the name 'blog'
 await navigateTo({ name: 'blog' })
 
-// ルートオブジェクトを使用してパラメーター (id = 1) を渡しながら、'product' ルートにリダイレクトします。
+// Redirects to the 'product' route while passing a parameter (id = 1) using the route object.
 await navigateTo({ name: 'product', params: { id: 1 } })
 ```
 
-### `options` (オプション)
+### `options` (optional)
 
-**型**: `NavigateToOptions`
+**Type**: `NavigateToOptions`
 
-以下のプロパティを受け取るオブジェクト:
+An object accepting the following properties:
 
 - `replace`
 
-  - **型**: `boolean`
-  - **デフォルト**: `false`
-  - デフォルトでは、`navigateTo` はクライアントサイドで指定されたルートを Vue Router のインスタンスにプッシュします。
+  - **Type**: `boolean`
+  - **Default**: `false`
+  - By default, `navigateTo` pushes the given route into the Vue Router's instance on the client side.
 
-    この動作は `replace` を `true` に設定することで変更でき、指定されたルートが置き換えられることを示します。
+    This behavior can be changed by setting `replace` to `true`, to indicate that given route should be replaced.
 
 - `redirectCode`
 
-  - **型**: `number`
-  - **デフォルト**: `302`
+  - **Type**: `number`
+  - **Default**: `302`
 
-  - `navigateTo` は指定されたパスにリダイレクトし、サーバーサイドでリダイレクションが発生するときにデフォルトでリダイレクトコードを [`302 Found`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302) に設定します。
+  - `navigateTo` redirects to the given path and sets the redirect code to [`302 Found`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302) by default when the redirection takes place on the server side.
 
-    このデフォルトの動作は、異なる `redirectCode` を提供することで変更できます。一般的に、永続的なリダイレクションには [`301 Moved Permanently`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301) を使用できます。
+    This default behavior can be modified by providing different `redirectCode`. Commonly, [`301 Moved Permanently`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301) can be used for permanent redirections.
 
 - `external`
 
-  - **型**: `boolean`
-  - **デフォルト**: `false`
+  - **Type**: `boolean`
+  - **Default**: `false`
 
-  - `true` に設定すると外部 URL へのナビゲーションが許可されます。そうでなければ、外部ナビゲーションはデフォルトで許可されていないため、`navigateTo` はエラーをスローします。
+  - Allows navigating to an external URL when set to `true`. Otherwise, `navigateTo` will throw an error, as external navigation is not allowed by default.
 
 - `open`
 
-  - **型**: `OpenOptions`
-  - ウィンドウの [open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) メソッドを使用して URL にナビゲーションすることを許可します。このオプションはクライアントサイドでのみ適用され、サーバーサイドでは無視されます。
+  - **Type**: `OpenOptions`
+  - Allows navigating to the URL using the [open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) method of the window. This option is only applicable on the client side and will be ignored on the server side.
 
-    以下のプロパティを受け取るオブジェクト:
+    An object accepting the following properties:
 
   - `target`
 
-    - **型**: `string`
-    - **デフォルト**: `'_blank'`
+    - **Type**: `string`
+    - **Default**: `'_blank'`
 
-    - リソースが読み込まれるブラウジングコンテキストの名前を指定する、空白を含まない文字列。
+    - A string, without whitespace, specifying the name of the browsing context the resource is being loaded into.
 
   - `windowFeatures`
 
-    - **型**: `OpenWindowFeatures`
+    - **Type**: `OpenWindowFeatures`
 
-    - 以下のプロパティを受け取るオブジェクト:
+    - An object accepting the following properties:
 
-      | プロパティ | 型    | 説明 |
+      | Property | Type    | Description |
       |----------|---------|--------------|
-      | `popup`  | `boolean` | 新しいタブの代わりに、ブラウザーが決定する UI 機能を持つ最小限のポップアップウィンドウを要求します。 |
-      | `width` または `innerWidth`  | `number`  | スクロールバーを含むコンテンツエリアの幅を指定します（最小 100 ピクセル）。 |
-      | `height` または `innerHeight` | `number`  | スクロールバーを含むコンテンツエリアの高さを指定します（最小 100 ピクセル）。 |
-      | `left` または `screenX`   | `number`  | 画面の左端を基準とした新しいウィンドウの水平位置を設定します。 |
-      | `top` または `screenY`   | `number`  | 画面の上端を基準とした新しいウィンドウの垂直位置を設定します。 |
-      | `noopener` | `boolean` | 新しいウィンドウが `window.opener` を介して元のウィンドウにアクセスすることを防ぎます。 |
-      | `noreferrer` | `boolean` | Referer ヘッダーの送信を防ぎ、暗黙的に `noopener` を有効にします。 |
+      | `popup`  | `boolean` | Requests a minimal popup window instead of a new tab, with UI features decided by the browser. |
+      | `width` or `innerWidth`  | `number`  | Specifies the content area's width (minimum 100 pixels), including scrollbars. |
+      | `height` or `innerHeight` | `number`  | Specifies the content area's height (minimum 100 pixels), including scrollbars. |
+      | `left` or `screenX`   | `number`  | Sets the horizontal position of the new window relative to the left edge of the screen. |
+      | `top` or `screenY`   | `number`  | Sets the vertical position of the new window relative to the top edge of the screen. |
+      | `noopener` | `boolean` | Prevents the new window from accessing the originating window via `window.opener`. |
+      | `noreferrer` | `boolean` | Prevents the Referer header from being sent and implicitly enables `noopener`. |
 
-      **windowFeatures** プロパティの詳細については、[ドキュメント](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#windowfeatures)を参照してください。
+      Refer to the [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#windowfeatures) for more detailed information on the **windowFeatures** properties.

@@ -1,6 +1,6 @@
 ---
 title: "onBeforeRouteLeave"
-description: onBeforeRouteLeave コンポーザブルは、コンポーネント内でルートガードを登録することを可能にします。
+description: The onBeforeRouteLeave composable allows registering a route guard within a component.
 links:
   - label: Source
     icon: i-simple-icons-github

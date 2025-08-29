@@ -1,6 +1,6 @@
 ---
 title: 'useRuntimeConfig'
-description: 'useRuntimeConfig composable でランタイム設定変数にアクセスします。'
+description: 'Access runtime config variables with the useRuntimeConfig composable.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,7 +8,7 @@ links:
     size: xs
 ---
 
-## 使用方法
+## Usage
 
 ```vue [app.vue]
 <script setup lang="ts">
@@ -24,19 +24,19 @@ export default defineEventHandler((event) => {
 
 :read-more{to="/docs/guide/going-further/runtime-config"}
 
-## ランタイム設定の定義
+## Define Runtime Config
 
-以下の例では、パブリック API ベース URL とサーバーでのみアクセス可能なシークレット API トークンを設定する方法を示しています。
+The example below shows how to set a public API base URL and a secret API token that is only accessible on the server.
 
-`runtimeConfig` 変数は常に `nuxt.config` 内で定義すべきです。
+We should always define `runtimeConfig` variables inside `nuxt.config`.
 
 ```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   runtimeConfig: {
-    // プライベートキーはサーバーでのみ利用可能
+    // Private keys are only available on the server
     apiSecret: '123',
 
-    // クライアントに公開されるパブリックキー
+    // Public keys that are exposed to the client
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api'
     }
@@ -45,24 +45,24 @@ export default defineNuxtConfig({
 ```
 
 ::note
-サーバーでアクセスできる必要がある変数は `runtimeConfig` の中に直接追加します。クライアントとサーバーの両方でアクセスできる必要がある変数は `runtimeConfig.public` で定義します。
+Variables that need to be accessible on the server are added directly inside `runtimeConfig`. Variables that need to be accessible on both the client and the server are defined in `runtimeConfig.public`.
 ::
 
 :read-more{to="/docs/guide/going-further/runtime-config"}
 
-## ランタイム設定へのアクセス
+## Access Runtime Config
 
-ランタイム設定にアクセスするには、`useRuntimeConfig()` composable を使用できます:
+To access runtime config, we can use `useRuntimeConfig()` composable:
 
 ```ts [server/api/test.ts]
 export default defineEventHandler((event) => {
   const config = useRuntimeConfig(event)
 
-  // パブリック変数にアクセス
+  // Access public variables
   const result = await $fetch(`/test`, {
     baseURL: config.public.apiBase,
     headers: {
-      // プライベート変数にアクセス（サーバーでのみ利用可能）
+      // Access a private variable (only available on the server)
       Authorization: `Bearer ${config.apiSecret}`
     }
   })
@@ -70,17 +70,17 @@ export default defineEventHandler((event) => {
 }
 ```
 
-この例では、`apiBase` が `public` 名前空間内で定義されているため、サーバーとクライアントの両方で普遍的にアクセス可能ですが、`apiSecret` は**サーバーサイドでのみアクセス可能**です。
+In this example, since `apiBase` is defined within the `public` namespace, it is universally accessible on both server and client-side, while `apiSecret` **is only accessible on the server-side**.
 
-## 環境変数
+## Environment Variables
 
-`NUXT_` で始まる一致する環境変数名を使用してランタイム設定値を更新することが可能です。
+It is possible to update runtime config values using a matching environment variable name prefixed with `NUXT_`.
 
 :read-more{to="/docs/guide/going-further/runtime-config"}
 
-### `.env` ファイルの使用
+### Using the `.env` File
 
-`.env` ファイル内で環境変数を設定し、**開発**および**ビルド/生成**中にアクセスできるようにすることができます。
+We can set the environment variables inside the `.env` file to make them accessible during **development** and **build/generate**.
 
 ```ini [.env]
 NUXT_PUBLIC_API_BASE = "https://api.localhost:5555"
@@ -88,53 +88,53 @@ NUXT_API_SECRET = "123"
 ```
 
 ::note
-`.env` ファイル内で設定された環境変数は、**開発**および**ビルド/生成**中に Nuxt アプリで `process.env` を使用してアクセスされます。
+Any environment variables set within `.env` file are accessed using `process.env` in the Nuxt app during **development** and **build/generate**.
 ::
 
 ::warning
-**プロダクションランタイム**では、プラットフォームの環境変数を使用すべきであり、`.env` は使用されません。
+In **production runtime**, you should use platform environment variables and `.env` is not used.
 ::
 
 :read-more{to="/docs/guide/directory-structure/env"}
 
-## `app` 名前空間
+## `app` namespace
 
-Nuxt は runtime-config で `app` 名前空間を使用し、`baseURL` や `cdnURL` などのキーを含みます。環境変数を設定することで、ランタイムにそれらの値をカスタマイズできます。
+Nuxt uses `app` namespace in runtime-config with keys including `baseURL` and `cdnURL`. You can customize their values at runtime by setting environment variables.
 
 ::note
-これは予約された名前空間です。`app` 内に追加のキーを導入しないでください。
+This is a reserved namespace. You should not introduce additional keys inside `app`.
 ::
 
 ### `app.baseURL`
 
-デフォルトでは、`baseURL` は `'/'` に設定されています。
+By default, the `baseURL` is set to `'/'`.
 
-しかし、`NUXT_APP_BASE_URL` を環境変数として設定することで、ランタイムに `baseURL` を更新できます。
+However, the `baseURL` can be updated at runtime by setting the `NUXT_APP_BASE_URL` as an environment variable.
 
-その後、`config.app.baseURL` を使用してこの新しいベース URL にアクセスできます:
+Then, you can access this new base URL using `config.app.baseURL`:
 
 ```ts [/plugins/my-plugin.ts]
 export default defineNuxtPlugin((NuxtApp) => {
   const config = useRuntimeConfig()
 
-  // baseURL を普遍的にアクセス
+  // Access baseURL universally
   const baseURL = config.app.baseURL
 })
 ```
 
 ### `app.cdnURL`
 
-この例では、カスタム CDN URL を設定し、`useRuntimeConfig()` を使用してアクセスする方法を示しています。
+This example shows how to set a custom CDN url and access them using `useRuntimeConfig()`.
 
-`NUXT_APP_CDN_URL` 環境変数を使用して、`.output/public` 内の静的アセットを提供するためにカスタム CDN を使用できます。
+You can use a custom CDN for serving static assets inside `.output/public` using the `NUXT_APP_CDN_URL` environment variable.
 
-その後、`config.app.cdnURL` を使用して新しい CDN URL にアクセスできます。
+And then access the new CDN url using `config.app.cdnURL`.
 
 ```ts [server/api/foo.ts]
 export default defineEventHandler((event) => {
   const config = useRuntimeConfig(event)
 
-  // cdnURL を普遍的にアクセス
+  // Access cdnURL universally
   const cdnURL = config.app.cdnURL
 })
 ```

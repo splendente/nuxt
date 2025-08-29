@@ -1,6 +1,6 @@
 ---
 title: 'nuxt cleanup'
-description: '一般的に生成される Nuxt ファイルとキャッシュを削除します。'
+description: 'Remove common generated Nuxt files and caches.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,25 +14,25 @@ npx nuxt cleanup [ROOTDIR] [--cwd=<directory>]
 ```
 <!--/cleanup-cmd-->
 
-`cleanup` コマンドは、以下を含む一般的に生成される Nuxt ファイルとキャッシュを削除します:
+The `cleanup` command removes common generated Nuxt files and caches, including:
 
 - `.nuxt`
 - `.output`
 - `node_modules/.vite`
 - `node_modules/.cache`
 
-## 引数
+## Arguments
 
 <!--cleanup-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/cleanup-args-->
 
-## オプション
+## Options
 
 <!--cleanup-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
 <!--/cleanup-opts-->

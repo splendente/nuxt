@@ -1,6 +1,6 @@
 ---
 title: "nuxt typecheck"
-description: typecheck コマンドは vue-tsc を実行してアプリ全体の型をチェックします。
+description: The typecheck command runs vue-tsc to check types throughout your app.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,29 +14,29 @@ npx nuxt typecheck [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbos
 ```
 <!--/typecheck-cmd-->
 
-`typecheck` コマンドは [`vue-tsc`](https://github.com/vuejs/language-tools/tree/master/packages/tsc) を実行してアプリ全体の型をチェックします。
+The `typecheck` command runs [`vue-tsc`](https://github.com/vuejs/language-tools/tree/master/packages/tsc) to check types throughout your app.
 
-## 引数
+## Arguments
 
 <!--typecheck-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/typecheck-args-->
 
-## オプション
+## Options
 
 <!--typecheck-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
-`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
 <!--/typecheck-opts-->
 
 ::note
-このコマンドは `process.env.NODE_ENV` を `production` に設定します。これを上書きするには、[`.env`](/docs/guide/directory-structure/env) ファイルまたはコマンドライン引数で `NODE_ENV` を定義してください。
+This command sets `process.env.NODE_ENV` to `production`. To override, define `NODE_ENV` in a [`.env`](/docs/guide/directory-structure/env) file or as a command-line argument.
 ::
 
 ::read-more{to="/docs/guide/concepts/typescript#type-checking"}
-ビルド時や開発時に型チェックを有効にする方法についてもっと読む。
+Read more on how to enable type-checking at build or development time.
 ::

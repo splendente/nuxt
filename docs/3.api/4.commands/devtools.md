@@ -1,6 +1,6 @@
 ---
 title: "nuxt devtools"
-description: devtools コマンドを使用すると、プロジェクトごとに Nuxt DevTools を有効または無効にできます。
+description: The devtools command allows you to enable or disable Nuxt DevTools on a per-project basis.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,25 +14,25 @@ npx nuxt devtools <COMMAND> [ROOTDIR] [--cwd=<directory>]
 ```
 <!--/devtools-cmd-->
 
-`nuxt devtools enable` を実行すると、Nuxt DevTools がグローバルにインストールされ、使用している特定のプロジェクト内でも有効になります。これはユーザーレベルの `.nuxtrc` に設定として保存されます。特定のプロジェクトで devtools サポートを削除したい場合は、`nuxt devtools disable` を実行できます。
+Running `nuxt devtools enable` will install the Nuxt DevTools globally, and also enable it within the particular project you are using. It is saved as a preference in your user-level `.nuxtrc`. If you want to remove devtools support for a particular project, you can run `nuxt devtools disable`.
 
-## 引数
+## Arguments
 
 <!--devtools-args-->
-引数 | 説明
+Argument | Description
 --- | ---
-`COMMAND` | 実行するコマンド（オプション: <enable\|disable>）
-`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
+`COMMAND` | Command to run (options: <enable\|disable>)
+`ROOTDIR="."` | Specifies the working directory (default: `.`)
 <!--/devtools-args-->
 
-## オプション
+## Options
 
 <!--devtools-opts-->
-オプション | デフォルト | 説明
+Option | Default | Description
 --- | --- | ---
-`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
+`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
 <!--/devtools-opts-->
 
 ::read-more{icon="i-simple-icons-nuxtdotjs" to="https://devtools.nuxt.com" target="\_blank"}
-**Nuxt DevTools** についてもっと読む。
+Read more about the **Nuxt DevTools**.
 ::

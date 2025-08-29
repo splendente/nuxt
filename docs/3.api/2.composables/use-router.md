@@ -1,6 +1,6 @@
 ---
 title: "useRouter"
-description: "useRouter composable はルーターインスタンスを返します。"
+description: "The useRouter composable returns the router instance."
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,7 +14,7 @@ const router = useRouter()
 </script>
 ```
 
-テンプレート内でルーターインスタンスのみが必要な場合は、`$router` を使用してください:
+If you only need the router instance within your template, use `$router`:
 
 ```vue [pages/index.vue]
 <template>
@@ -22,19 +22,19 @@ const router = useRouter()
 </template>
 ```
 
-`pages/` ディレクトリがある場合、`useRouter` は `vue-router` で提供されるものと同一の動作をします。
+If you have a `pages/` directory, `useRouter` is identical in behavior to the one provided by `vue-router`.
 
 ::read-more{icon="i-simple-icons-vuedotjs" to="https://router.vuejs.org/api/interfaces/Router.html#Properties-currentRoute" target="_blank"}
-`Router` インターフェースについての `vue-router` ドキュメントを参照してください。
+Read `vue-router` documentation about the `Router` interface.
 ::
 
-## 基本的な操作
+## Basic Manipulation
 
-- [`addRoute()`](https://router.vuejs.org/api/interfaces/Router.html#addRoute): ルーターインスタンスに新しいルートを追加します。既存のルートの子として新しいルートを追加するために `parentName` を提供できます。
-- [`removeRoute()`](https://router.vuejs.org/api/interfaces/Router.html#removeRoute): 名前で既存のルートを削除します。
-- [`getRoutes()`](https://router.vuejs.org/api/interfaces/Router.html#getRoutes): すべてのルートレコードの完全なリストを取得します。
-- [`hasRoute()`](https://router.vuejs.org/api/interfaces/Router.html#hasRoute): 指定した名前のルートが存在するかどうかをチェックします。
-- [`resolve()`](https://router.vuejs.org/api/interfaces/Router.html#resolve): ルートロケーションの正規化されたバージョンを返します。既存のベースを含む `href` プロパティも含まれます。
+- [`addRoute()`](https://router.vuejs.org/api/interfaces/Router.html#addRoute): Add a new route to the router instance. `parentName` can be provided to add new route as the child of an existing route.
+- [`removeRoute()`](https://router.vuejs.org/api/interfaces/Router.html#removeRoute): Remove an existing route by its name.
+- [`getRoutes()`](https://router.vuejs.org/api/interfaces/Router.html#getRoutes): Get a full list of all the route records.
+- [`hasRoute()`](https://router.vuejs.org/api/interfaces/Router.html#hasRoute): Checks if a route with a given name exists.
+- [`resolve()`](https://router.vuejs.org/api/interfaces/Router.html#resolve): Returns the normalized version of a route location. Also includes an `href` property that includes any existing base.
 
 ```ts [Example]
 const router = useRouter()
@@ -47,16 +47,16 @@ router.resolve({ name: 'home' })
 ```
 
 ::note
-`router.addRoute()` はルートの詳細をルートの配列に追加し、[Nuxt プラグイン](/docs/guide/directory-structure/plugins)を構築する際に有用です。一方、`router.push()` は即座に新しいナビゲーションをトリガーし、ページ、Vue コンポーネント、composable で有用です。
+`router.addRoute()` adds route details into an array of routes and it is useful while building [Nuxt plugins](/docs/guide/directory-structure/plugins) while `router.push()` on the other hand, triggers a new navigation immediately and it is useful in pages, Vue components and composable.
 ::
 
-## History API ベース
+## Based on History API
 
-- [`back()`](https://router.vuejs.org/api/interfaces/Router.html#back): 可能であれば履歴を戻ります。`router.go(-1)` と同じです。
-- [`forward()`](https://router.vuejs.org/api/interfaces/Router.html#forward): 可能であれば履歴を進みます。`router.go(1)` と同じです。
-- [`go()`](https://router.vuejs.org/api/interfaces/Router.html#go): `router.back()` や `router.forward()` で強制される階層制限なしに、履歴を前後に移動します。
-- [`push()`](https://router.vuejs.org/api/interfaces/Router.html#push): 履歴スタックにエントリをプッシュして新しい URL にプログラムでナビゲートします。**代わりに [`navigateTo`](/docs/api/utils/navigate-to) を使用することを推奨します。**
-- [`replace()`](https://router.vuejs.org/api/interfaces/Router.html#replace): ルート履歴スタックの現在のエントリを置き換えて新しい URL にプログラムでナビゲートします。**代わりに [`navigateTo`](/docs/api/utils/navigate-to) を使用することを推奨します。**
+- [`back()`](https://router.vuejs.org/api/interfaces/Router.html#back): Go back in history if possible, same as `router.go(-1)`.
+- [`forward()`](https://router.vuejs.org/api/interfaces/Router.html#forward): Go forward in history if possible, same as `router.go(1)`.
+- [`go()`](https://router.vuejs.org/api/interfaces/Router.html#go): Move forward or backward through the history without the hierarchical restrictions enforced in `router.back()` and `router.forward()`.
+- [`push()`](https://router.vuejs.org/api/interfaces/Router.html#push): Programmatically navigate to a new URL by pushing an entry in the history stack. **It is recommended to use [`navigateTo`](/docs/api/utils/navigate-to) instead.**
+- [`replace()`](https://router.vuejs.org/api/interfaces/Router.html#replace): Programmatically navigate to a new URL by replacing the current entry in the routes history stack. **It is recommended to use [`navigateTo`](/docs/api/utils/navigate-to) instead.**
 
 ```ts [Example]
 const router = useRouter()
@@ -69,24 +69,24 @@ router.replace({ hash: "#bio" })
 ```
 
 ::read-more{icon="i-simple-icons-mdnwebdocs" to="https://developer.mozilla.org/en-US/docs/Web/API/History" target="_blank"}
-ブラウザの History API について詳しく参照してください。
+Read more about the browser's History API.
 ::
 
-## ナビゲーションガード
+## Navigation Guards
 
-`useRouter` composable はナビゲーションガードとして機能する `afterEach`、`beforeEach`、`beforeResolve` ヘルパーメソッドを提供します。
+`useRouter` composable provides `afterEach`, `beforeEach` and `beforeResolve` helper methods that acts as navigation guards.
 
-しかし、Nuxt には**ルートミドルウェア**の概念があり、ナビゲーションガードの実装を簡素化し、より良い開発者エクスペリエンスを提供します。
+However, Nuxt has a concept of **route middleware** that simplifies the implementation of navigation guards and provides a better developer experience.
 
 :read-more{to="/docs/guide/directory-structure/middleware"}
 
-## Promise とエラーハンドリング
+## Promise and Error Handling
 
-- [`isReady()`](https://router.vuejs.org/api/interfaces/Router.html#isReady): ルーターが初期ナビゲーションを完了したときに解決される Promise を返します。
-- [`onError`](https://router.vuejs.org/api/interfaces/Router.html#onError): ナビゲーション中にキャッチされないエラーが発生するたびに呼び出されるエラーハンドラーを追加します。
+- [`isReady()`](https://router.vuejs.org/api/interfaces/Router.html#isReady): Returns a Promise that resolves when the router has completed the initial navigation.
+- [`onError`](https://router.vuejs.org/api/interfaces/Router.html#onError): Adds an error handler that is called every time a non caught error happens during navigation.
 
 :read-more{icon="i-simple-icons-vuedotjs" to="https://router.vuejs.org/api/interfaces/Router.html#Methods" title="Vue Router Docs" target="_blank"}
 
-## ユニバーサルルーターインスタンス
+## Universal Router Instance
 
-`pages/` フォルダーがない場合、[`useRouter`](/docs/api/composables/use-router) は同様のヘルパーメソッドを持つユニバーサルルーターインスタンスを返しますが、すべての機能がサポートされているわけではなく、`vue-router` とまったく同じように動作しない可能性があることに注意してください。
+If you do not have a `pages/` folder, then [`useRouter`](/docs/api/composables/use-router)  will return a universal router instance with similar helper methods, but be aware that not all features may be supported or behave in exactly the same way as with `vue-router`.

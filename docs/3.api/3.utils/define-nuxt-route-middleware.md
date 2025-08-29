@@ -1,6 +1,6 @@
 ---
 title: "defineNuxtRouteMiddleware"
-description: "defineNuxtRouteMiddleware ヘルパー関数を使用して、名前付きルートミドルウェアを作成します。"
+description: "Create named route middleware using defineNuxtRouteMiddleware helper function."
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,9 +8,9 @@ links:
     size: xs
 ---
 
-ルートミドルウェアは、Nuxt アプリケーションの [`middleware/`](/docs/guide/directory-structure/middleware) に保存されます（[別途設定](/docs/api/nuxt-config#middleware)されていない限り）。
+Route middleware are stored in the [`middleware/`](/docs/guide/directory-structure/middleware) of your Nuxt application (unless [set otherwise](/docs/api/nuxt-config#middleware)).
 
-## 型
+## Type
 
 ```ts
 defineNuxtRouteMiddleware(middleware: RouteMiddleware) => RouteMiddleware
@@ -20,21 +20,21 @@ interface RouteMiddleware {
 }
 ```
 
-## パラメーター
+## Parameters
 
 ### `middleware`
 
-- **型**: `RouteMiddleware`
+- **Type**: `RouteMiddleware`
 
-Vue Router のルートロケーションオブジェクトを 2 つのパラメーターとして受け取る関数です。最初は次のルート `to`、2 番目は現在のルート `from` です。
+A function that takes two Vue Router's route location objects as parameters: the next route `to` as the first, and the current route `from` as the second.
 
-`RouteLocationNormalized` の利用可能なプロパティについては、**[Vue Router docs](https://router.vuejs.org/api/#RouteLocationNormalized)** を参照してください。
+Learn more about available properties of `RouteLocationNormalized` in the **[Vue Router docs](https://router.vuejs.org/api/#RouteLocationNormalized)**.
 
-## 例
+## Examples
 
-### エラーページの表示
+### Showing Error Page
 
-ルートミドルウェアを使用してエラーをスローし、役立つエラーメッセージを表示できます:
+You can use route middleware to throw errors and show helpful error messages:
 
 ```ts [middleware/error.ts]
 export default defineNuxtRouteMiddleware((to) => {
@@ -44,11 +44,11 @@ export default defineNuxtRouteMiddleware((to) => {
 })
 ```
 
-上記のルートミドルウェアは、ユーザーを `~/error.vue` ファイルで定義されたカスタムエラーページにリダイレクトし、ミドルウェアから渡されたエラーメッセージとコードを公開します。
+The above route middleware will redirect a user to the custom error page defined in the `~/error.vue` file, and expose the error message and code passed from the middleware.
 
-### リダイレクト
+### Redirection
 
-認証ステータスに基づいてユーザーを異なるルートにリダイレクトするために、ルートミドルウェア内で [`useState`](/docs/api/composables/use-state) を `navigateTo` ヘルパー関数と組み合わせて使用します:
+Use [`useState`](/docs/api/composables/use-state) in combination with `navigateTo` helper function inside the route middleware to redirect users to different routes based on their authentication status:
 
 ```ts [middleware/auth.ts]
 export default defineNuxtRouteMiddleware((to, from) => {
@@ -64,4 +64,4 @@ export default defineNuxtRouteMiddleware((to, from) => {
 })
 ```
 
-[navigateTo](/docs/api/utils/navigate-to) と [abortNavigation](/docs/api/utils/abort-navigation) は両方とも、`defineNuxtRouteMiddleware` 内で使用できるグローバルに利用可能なヘルパー関数です。
+Both [navigateTo](/docs/api/utils/navigate-to) and [abortNavigation](/docs/api/utils/abort-navigation) are globally available helper functions that you can use inside `defineNuxtRouteMiddleware`.

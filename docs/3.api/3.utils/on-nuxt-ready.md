@@ -1,6 +1,6 @@
 ---
 title: "onNuxtReady"
-description: onNuxtReady コンポーザブルは、アプリが初期化を完了した後にコールバックを実行することを可能にします。
+description: The onNuxtReady composable allows running a callback after your app has finished initializing.
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,8 +9,8 @@ links:
 ---
 
 ::important
-`onNuxtReady` はクライアントサイドでのみ実行されます。:br
-アプリの初期レンダリングをブロックすべきでないコードを実行するのに最適です。
+`onNuxtReady` only runs on the client-side. :br
+It is ideal for running code that should not block the initial rendering of your app.
 ::
 
 ```ts [plugins/ready.client.ts]
@@ -22,4 +22,4 @@ export default defineNuxtPlugin(() => {
 })
 ```
 
-アプリが初期化された後でも実行することは「安全」です。この場合、コードは次のアイドルコールバックで実行されるように登録されます。
+It is 'safe' to run even after your app has initialized. In this case, then the code will be registered to run in the next idle callback.

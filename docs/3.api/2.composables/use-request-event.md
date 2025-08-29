@@ -1,6 +1,6 @@
 ---
 title: 'useRequestEvent'
-description: 'useRequestEvent composable で受信リクエストイベントにアクセスします。'
+description: 'Access the incoming request event with the useRequestEvent composable.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,16 +8,16 @@ links:
     size: xs
 ---
 
-[Nuxt コンテキスト](/docs/guide/going-further/nuxt-app#the-nuxt-context)内で `useRequestEvent` を使用して受信リクエストにアクセスできます。
+Within the [Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context) you can use `useRequestEvent` to access the incoming request.
 
 ```ts
-// 基礎となるリクエストイベントを取得
+// Get underlying request event
 const event = useRequestEvent()
 
-// URL を取得
+// Get the URL
 const url = event?.path
 ```
 
 ::tip
-ブラウザでは、`useRequestEvent` は `undefined` を返します。
+In the browser, `useRequestEvent` will return `undefined`.
 ::

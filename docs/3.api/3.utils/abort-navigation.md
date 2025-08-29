@@ -1,6 +1,6 @@
 ---
 title: 'abortNavigation'
-description: 'abortNavigation はナビゲーションの実行を防ぎ、パラメーターとしてエラーが設定されている場合はエラーをスローするヘルパー関数です。'
+description: 'abortNavigation is a helper function that prevents navigation from taking place and throws an error if one is set as a parameter.'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,26 +9,26 @@ links:
 ---
 
 ::warning
-`abortNavigation` は [ルートミドルウェアハンドラー](/docs/guide/directory-structure/middleware)内でのみ使用できます。
+`abortNavigation` is only usable inside a [route middleware handler](/docs/guide/directory-structure/middleware).
 ::
 
-## 型
+## Type
 
 ```ts
 abortNavigation(err?: Error | string): false
 ```
 
-## パラメーター
+## Parameters
 
 ### `err`
 
 - **Type**: [`Error`](https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/Error) | `string`
 
-  `abortNavigation` によってスローされるオプションのエラー。
+  Optional error to be thrown by `abortNavigation`.
 
-## 例
+## Examples
 
-以下の例では、ルートミドルウェアで `abortNavigation` を使用して未承認のルートアクセスを防ぐ方法を示しています:
+The example below shows how you can use `abortNavigation` in a route middleware to prevent unauthorized route access:
 
 ```ts [middleware/auth.ts]
 export default defineNuxtRouteMiddleware((to, from) => {
@@ -44,28 +44,28 @@ export default defineNuxtRouteMiddleware((to, from) => {
 })
 ```
 
-### 文字列としての `err`
+### `err` as a String
 
-エラーを文字列として渡すことができます:
+You can pass the error as a string:
 
 ```ts [middleware/auth.ts]
 export default defineNuxtRouteMiddleware((to, from) => {
   const user = useState('user')
 
   if (!user.value.isAuthorized) {
-    return abortNavigation('権限が不十分です。')
+    return abortNavigation('Insufficient permissions.')
   }
 })
 ```
 
-### Error オブジェクトとしての `err`
+### `err` as an Error Object
 
-エラーを [`Error`](https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/Error) オブジェクトとして渡すことができます。例えば `catch` ブロックでキャッチしたもの:
+You can pass the error as an [`Error`](https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/Error) object, e.g. caught by the `catch`-block:
 
 ```ts [middleware/auth.ts]
 export default defineNuxtRouteMiddleware((to, from) => {
   try {
-    /* エラーをスローする可能性のあるコード */
+    /* code that might throw an error */
   } catch (err) {
     return abortNavigation(err)
   }

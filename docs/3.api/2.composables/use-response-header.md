@@ -1,6 +1,6 @@
 ---
 title: "useResponseHeader"
-description: "useResponseHeader を使用してサーバーレスポンスヘッダーを設定します。"
+description: "Use useResponseHeader to set a server response header."
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,20 +9,20 @@ links:
 ---
 
 ::important
-この composable は Nuxt v3.14+ で利用できます。
+This composable is available in Nuxt v3.14+.
 ::
 
-組み込みの [`useResponseHeader`](/docs/api/composables/use-response-header) composable を使用して、ページ、コンポーネント、プラグイン内で任意のサーバーレスポンスヘッダーを設定できます。
+You can use the built-in [`useResponseHeader`](/docs/api/composables/use-response-header) composable to set any server response header within your pages, components, and plugins.
 
 ```ts
-// カスタムレスポンスヘッダーを設定
+// Set the a custom response header
 const header = useResponseHeader('X-My-Header');
 header.value = 'my-value';
 ```
 
-## 例
+## Example
 
-`useResponseHeader` を使用して、ページごとにレスポンスヘッダーを簡単に設定できます。
+We can use `useResponseHeader` to easily set a response header on a per-page basis.
 
 ```vue [pages/test.vue]
 <script setup>
@@ -32,12 +32,12 @@ header.value = 'my-value';
 </script>
 
 <template>
-  <h1>カスタムヘッダー付きテストページ</h1>
-  <p>この "/test" ページのサーバーからのレスポンスには、カスタム "X-My-Header" ヘッダーが含まれます。</p>
+  <h1>Test page with custom header</h1>
+  <p>The response from the server for this "/test" page will have a custom "X-My-Header" header.</p>
 </template>
 ```
 
-例えば Nuxt [middleware](/docs/guide/directory-structure/middleware) で `useResponseHeader` を使用して、すべてのページのレスポンスヘッダーを設定できます。
+We can use `useResponseHeader` for example in Nuxt [middleware](/docs/guide/directory-structure/middleware) to set a response header for all pages.
 
 ```ts [middleware/my-header-middleware.ts]
 export default defineNuxtRouteMiddleware((to, from) => {
