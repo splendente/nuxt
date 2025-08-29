@@ -1,6 +1,6 @@
 ---
 title: 'setResponseStatus'
-description: setResponseStatus sets the statusCode (and optionally the statusMessage) of the response.
+description: setResponseStatus は、レスポンスの statusCode（および必要に応じて statusMessage）を設定します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,29 +8,29 @@ links:
     size: xs
 ---
 
-Nuxt provides composables and utilities for first-class server-side-rendering support.
+Nuxt は、一流のサーバーサイドレンダリングサポート用のコンポーザブルとユーティリティを提供します。
 
-`setResponseStatus` sets the statusCode (and optionally the statusMessage) of the response.
+`setResponseStatus` は、レスポンスの statusCode（および必要に応じて statusMessage）を設定します。
 
 ::important
-`setResponseStatus` can only be called in the [Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context).
+`setResponseStatus` は [Nuxt context](/docs/guide/going-further/nuxt-app#the-nuxt-context) 内でのみ呼び出すことができます。
 ::
 
 ```js
 const event = useRequestEvent()
 
-// event will be undefined in the browser
+// event はブラウザでは undefined になります
 if (event) {
-  // Set the status code to 404 for a custom 404 page
+  // カスタム 404 ページのためにステータスコードを 404 に設定
   setResponseStatus(event, 404)
 
-  // Set the status message as well
+  // ステータスメッセージも設定
   setResponseStatus(event, 404, 'Page Not Found')
 }
 ```
 
 ::note
-In the browser, `setResponseStatus` will have no effect.
+ブラウザでは、`setResponseStatus` は何の効果もありません。
 ::
 
 :read-more{to="/docs/getting-started/error-handling"}

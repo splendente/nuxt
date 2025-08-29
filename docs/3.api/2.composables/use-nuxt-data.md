@@ -1,6 +1,6 @@
 ---
 title: 'useNuxtData'
-description: 'Access the current cached value of data fetching composables.'
+description: 'データフェッチ composable の現在キャッシュされている値にアクセスします。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,41 +9,41 @@ links:
 ---
 
 ::note
-`useNuxtData` gives you access to the current cached value of [`useAsyncData`](/docs/api/composables/use-async-data) , [`useLazyAsyncData`](/docs/api/composables/use-lazy-async-data), [`useFetch`](/docs/api/composables/use-fetch) and [`useLazyFetch`](/docs/api/composables/use-lazy-fetch) with explicitly provided key.
+`useNuxtData` は、明示的に提供されたキーを使用して [`useAsyncData`](/docs/api/composables/use-async-data) 、[`useLazyAsyncData`](/docs/api/composables/use-lazy-async-data) 、[`useFetch`](/docs/api/composables/use-fetch) 、[`useLazyFetch`](/docs/api/composables/use-lazy-fetch) の現在キャッシュされている値へのアクセスを提供します。
 ::
 
-## Usage
+## 使用方法
 
-The `useNuxtData` composable is used to access the current cached value of data-fetching composables such as `useAsyncData`, `useLazyAsyncData`, `useFetch`, and `useLazyFetch`. By providing the key used during the data fetch, you can retrieve the cached data and use it as needed.
+`useNuxtData` composable は、`useAsyncData`、`useLazyAsyncData`、`useFetch`、`useLazyFetch` などのデータフェッチ composable の現在キャッシュされている値にアクセスするために使用されます。データフェッチ中に使用されたキーを提供することで、キャッシュされたデータを取得し、必要に応じて使用できます。
 
-This is particularly useful for optimizing performance by reusing already-fetched data or implementing features like Optimistic Updates or cascading data updates.
+これは、すでにフェッチされたデータを再利用してパフォーマンスを最適化したり、楽観的更新やカスケードデータ更新などの機能を実装したりするのに特に有用です。
 
-To use `useNuxtData`, ensure that the data-fetching composable (`useFetch`, `useAsyncData`, etc.) has been called with an explicitly provided key.
+`useNuxtData` を使用するには、データフェッチ composable（`useFetch`、`useAsyncData` など）が明示的に提供されたキーで呼び出されていることを確認してください。
 
 :video-accordion{title="Watch a video from LearnVue about useNuxtData" videoId="e-_u6swXRWk"}
 
-## Params
+## パラメーター
 
-- `key`: The unique key that identifies the cached data. This key should match the one used during the original data fetch.
+- `key`: キャッシュされたデータを識別する一意のキー。このキーは、元のデータフェッチ時に使用されたものと一致する必要があります。
 
-## Return Values
+## 戻り値
 
-- `data`: A reactive reference to the cached data associated with the provided key. If no cached data exists, the value will be `null`. This `Ref` automatically updates if the cached data changes, allowing seamless reactivity in your components.
+- `data`: 提供されたキーに関連付けられたキャッシュされたデータへのリアクティブな参照。キャッシュされたデータが存在しない場合、値は `null` になります。この `Ref` はキャッシュされたデータが変更された場合に自動的に更新され、コンポーネントでシームレスなリアクティビティを可能にします。
 
-## Example
+## 例
 
-The example below shows how you can use cached data as a placeholder while the most recent data is being fetched from the server.
+以下の例では、最新のデータがサーバーからフェッチされている間に、キャッシュされたデータをプレースホルダーとして使用する方法を示しています。
 
 ```vue [pages/posts.vue]
 <script setup lang="ts">
-// We can access same data later using 'posts' key
+// 後で 'posts' キーを使用して同じデータにアクセスできます
 const { data } = await useFetch('/api/posts', { key: 'posts' })
 </script>
 ```
 
 ```vue [pages/posts/[id\\].vue]
 <script setup lang="ts">
-// Access to the cached value of useFetch in posts.vue (parent route)
+// posts.vue（親ルート）の useFetch のキャッシュされた値にアクセス
 const { data: posts } = useNuxtData('posts')
 
 const route = useRoute()
@@ -51,22 +51,22 @@ const route = useRoute()
 const { data } = useLazyFetch(`/api/posts/${route.params.id}`, {
   key: `post-${route.params.id}`,
   default() {
-    // Find the individual post from the cache and set it as the default value.
+    // キャッシュから個々の投稿を見つけて、それをデフォルト値として設定します。
     return posts.value.find(post => post.id === route.params.id)
   }
 })
 </script>
 ```
 
-## Optimistic Updates
+## 楽観的更新
 
-The example below shows how implementing Optimistic Updates can be achieved using useNuxtData.
+以下の例では、useNuxtData を使用して楽観的更新を実装する方法を示しています。
 
-Optimistic Updates is a technique where the user interface is updated immediately, assuming a server operation will succeed. If the operation eventually fails, the UI is rolled back to its previous state.
+楽観的更新は、サーバー操作が成功すると仮定してユーザーインターフェースを即座に更新する技術です。操作が最終的に失敗した場合、UI は以前の状態にロールバックされます。
 
 ```vue [pages/todos.vue]
 <script setup lang="ts">
-// We can access same data later using 'todos' key
+// 後で 'todos' キーを使用して同じデータにアクセスできます
 const { data } = await useAsyncData('todos', () => $fetch('/api/todos'))
 </script>
 ```
@@ -76,7 +76,7 @@ const { data } = await useAsyncData('todos', () => $fetch('/api/todos'))
 const newTodo = ref('')
 let previousTodos = []
 
-// Access to the cached value of useAsyncData in todos.vue
+// todos.vue の useAsyncData のキャッシュされた値にアクセス
 const { data: todos } = useNuxtData('todos')
 
 async function addTodo () {
@@ -86,18 +86,18 @@ async function addTodo () {
       todo: newTodo.value
     },
     onRequest () {
-      // Store the previously cached value to restore if fetch fails.
+      // フェッチが失敗した場合に復元するため、以前にキャッシュされた値を保存します。
       previousTodos = todos.value
 
-      // Optimistically update the todos.
+      // todos を楽観的に更新します。
       todos.value = [...todos.value, newTodo.value]
     },
     onResponseError () {
-      // Rollback the data if the request failed.
+      // リクエストが失敗した場合、データをロールバックします。
       todos.value = previousTodos
     },
     async onResponse () {
-      // Invalidate todos in the background if the request succeeded.
+      // リクエストが成功した場合、バックグラウンドで todos を無効化します。
       await refreshNuxtData('todos')
     }
   })

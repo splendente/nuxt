@@ -1,6 +1,6 @@
 ---
 title: "nuxt generate"
-description: Pre-renders every route of the application and stores the result in plain HTML files.
+description: アプリケーションのすべてのルートを事前レンダリングし、結果をプレーンな HTML ファイルに保存します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,28 +14,28 @@ npx nuxt generate [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbose
 ```
 <!--/generate-cmd-->
 
-The `generate` command pre-renders every route of your application and stores the result in plain HTML files that you can deploy on any static hosting services. The command triggers the `nuxt build` command with the `prerender` argument set to `true`
+`generate` コマンドは、アプリケーションのすべてのルートを事前レンダリングし、結果を任意の静的ホスティングサービスにデプロイできるプレーンな HTML ファイルに保存します。このコマンドは `prerender` 引数を `true` に設定して `nuxt build` コマンドをトリガーします
 
-## Arguments
+## 引数
 
 <!--generate-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`ROOTDIR="."` | Specifies the working directory (default: `.`)
+`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
 <!--/generate-args-->
 
-## Options
+## オプション
 
 <!--generate-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
-`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
-`--preset` |  | Nitro server preset
-`--dotenv` |  | Path to `.env` file to load, relative to the root directory
-`--envName` |  | The environment to use when resolving configuration overrides (default is `production` when building, and `development` when running the dev server)
+`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
+`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--preset` |  | Nitro サーバープリセット
+`--dotenv` |  | 読み込む `.env` ファイルのパス（ルートディレクトリからの相対パス）
+`--envName` |  | 設定オーバーライドを解決する際に使用する環境（ビルド時のデフォルトは `production`、dev サーバー実行時のデフォルトは `development`）
 <!--/generate-opts-->
 
 ::read-more{to="/docs/getting-started/deployment#static-hosting"}
-Read more about pre-rendering and static hosting.
+事前レンダリングと静的ホスティングについてもっと読む。
 ::

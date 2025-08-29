@@ -1,6 +1,6 @@
 ---
 title: "nuxt add"
-description: "Scaffold an entity into your Nuxt application."
+description: "Nuxt アプリケーションにエンティティをスキャフォールドします。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,99 +14,99 @@ npx nuxt add <TEMPLATE> <NAME> [--cwd=<directory>] [--logLevel=<silent|info|verb
 ```
 <!--/add-cmd-->
 
-### Arguments
+### 引数
 
 <!--add-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`TEMPLATE` | Specify which template to generate (options: <api\|plugin\|component\|composable\|middleware\|layout\|page\|layer>)
-`NAME` | Specify name of the generated file
+`TEMPLATE` | 生成するテンプレートを指定します（オプション: <api\|plugin\|component\|composable\|middleware\|layout\|page\|layer>）
+`NAME` | 生成されるファイルの名前を指定します
 <!--/add-args-->
 
-### Options
+### オプション
 
 <!--add-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` | `.` | Specify the working directory
-`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
-`--force` | `false` | Force override file if it already exists
+`--cwd=<directory>` | `.` | 作業ディレクトリを指定します
+`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--force` | `false` | ファイルが既に存在する場合、強制的に上書きします
 <!--/add-opts-->
 
-**Modifiers:**
+**修飾子:**
 
-Some templates support additional modifier flags to add a suffix (like `.client` or `.get`) to their name.
+一部のテンプレートは、名前にサフィックス（`.client` や `.get` など）を追加するための追加の修飾子フラグをサポートしています。
 
 ```bash [Terminal]
-# Generates `/plugins/sockets.client.ts`
+# `/plugins/sockets.client.ts` を生成します
 npx nuxt add plugin sockets --client
 ```
 
 ## `nuxt add component`
 
-* Modifier flags: `--mode client|server` or `--client` or `--server`
+* 修飾子フラグ: `--mode client|server` または `--client` または `--server`
 
 ```bash [Terminal]
-# Generates `components/TheHeader.vue`
+# `components/TheHeader.vue` を生成します
 npx nuxt add component TheHeader
 ```
 
 ## `nuxt add composable`
 
 ```bash [Terminal]
-# Generates `composables/foo.ts`
+# `composables/foo.ts` を生成します
 npx nuxt add composable foo
 ```
 
 ## `nuxt add layout`
 
 ```bash [Terminal]
-# Generates `layouts/custom.vue`
+# `layouts/custom.vue` を生成します
 npx nuxt add layout custom
 ```
 
 ## `nuxt add plugin`
 
-* Modifier flags: `--mode client|server` or `--client`or `--server`
+* 修飾子フラグ: `--mode client|server` または `--client` または `--server`
 
 ```bash [Terminal]
-# Generates `plugins/analytics.ts`
+# `plugins/analytics.ts` を生成します
 npx nuxt add plugin analytics
 ```
 
 ## `nuxt add page`
 
 ```bash [Terminal]
-# Generates `pages/about.vue`
+# `pages/about.vue` を生成します
 npx nuxt add page about
 ```
 
 ```bash [Terminal]
-# Generates `pages/category/[id].vue`
+# `pages/category/[id].vue` を生成します
 npx nuxt add page "category/[id]"
 ```
 
 ## `nuxt add middleware`
 
-* Modifier flags: `--global`
+* 修飾子フラグ: `--global`
 
 ```bash [Terminal]
-# Generates `middleware/auth.ts`
+# `middleware/auth.ts` を生成します
 npx nuxt add middleware auth
 ```
 
 ## `nuxt add api`
 
-* Modifier flags: `--method` (can accept `connect`, `delete`, `get`, `head`, `options`, `patch`, `post`, `put` or `trace`) or alternatively you can directly use `--get`, `--post`, etc.
+* 修飾子フラグ: `--method`（`connect`、`delete`、`get`、`head`、`options`、`patch`、`post`、`put`、または `trace` を受け付けます）または直接 `--get`、`--post` などを使用できます。
 
 ```bash [Terminal]
-# Generates `server/api/hello.ts`
+# `server/api/hello.ts` を生成します
 npx nuxt add api hello
 ```
 
 ## `nuxt add layer`
 
 ```bash [Terminal]
-# Generates `layers/subscribe/nuxt.config.ts`
+# `layers/subscribe/nuxt.config.ts` を生成します
 npx nuxt add layer subscribe
 ```

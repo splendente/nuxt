@@ -1,6 +1,6 @@
 ---
 title: useHead
-description: useHead customizes the head properties of individual pages of your Nuxt app.
+description: useHead は Nuxt アプリの個別ページの head プロパティをカスタマイズします。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,17 +8,17 @@ links:
     size: xs
 ---
 
-The [`useHead`](/docs/api/composables/use-head) composable function allows you to manage your head tags in a programmatic and reactive way, powered by [Unhead](https://unhead.unjs.io). If the data comes from a user or other untrusted source, we recommend you check out [`useHeadSafe`](/docs/api/composables/use-head-safe).
+[`useHead`](/docs/api/composables/use-head) composable 関数は、[Unhead](https://unhead.unjs.io) を使用して head タグをプログラム的かつリアクティブな方法で管理できます。データがユーザーやその他の信頼できないソースから来る場合は、[`useHeadSafe`](/docs/api/composables/use-head-safe) を確認することをお勧めします。
 
 :read-more{to="/docs/getting-started/seo-meta"}
 
-## Type
+## 型
 
 ```ts
 useHead(meta: MaybeComputedRef<MetaObject>): void
 ```
 
-Below are the non-reactive types for [`useHead`](/docs/api/composables/use-head) .
+以下は [`useHead`](/docs/api/composables/use-head) の非リアクティブ型です。
 
 ```ts
 interface MetaObject {
@@ -35,35 +35,35 @@ interface MetaObject {
 }
 ```
 
-See [@unhead/vue](https://github.com/unjs/unhead/blob/main/packages/vue/src/types/schema.ts) for more detailed types.
+より詳細な型については [@unhead/vue](https://github.com/unjs/unhead/blob/main/packages/vue/src/types/schema.ts) を参照してください。
 
 ::note
-The properties of `useHead` can be dynamic, accepting `ref`, `computed` and `reactive` properties. `meta` parameter can also accept a function returning an object to make the entire object reactive.
+`useHead` のプロパティは動的であり、`ref`、`computed`、`reactive` プロパティを受け付けます。`meta` パラメーターは、オブジェクト全体をリアクティブにするためにオブジェクトを返す関数を受け付けることもできます。
 ::
 
-## Params
+## パラメーター
 
 ### `meta`
 
 **Type**: `MetaObject`
 
-An object accepting the following head metadata:
+以下の head メタデータを受け付けるオブジェクト:
 
-- `meta`: Each element in the array is mapped to a newly-created `<meta>` tag, where object properties are mapped to the corresponding attributes.
+- `meta`: 配列の各要素は新しく作成された `<meta>` タグにマッピングされ、オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Array<Record<string, any>>`
-- `link`: Each element in the array is mapped to a newly-created `<link>` tag, where object properties are mapped to the corresponding attributes.
+- `link`: 配列の各要素は新しく作成された `<link>` タグにマッピングされ、オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Array<Record<string, any>>`
-- `style`: Each element in the array is mapped to a newly-created `<style>` tag, where object properties are mapped to the corresponding attributes.
+- `style`: 配列の各要素は新しく作成された `<style>` タグにマッピングされ、オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Array<Record<string, any>>`
-- `script`: Each element in the array is mapped to a newly-created `<script>` tag, where object properties are mapped to the corresponding attributes.
+- `script`: 配列の各要素は新しく作成された `<script>` タグにマッピングされ、オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Array<Record<string, any>>`
-- `noscript`: Each element in the array is mapped to a newly-created `<noscript>` tag, where object properties are mapped to the corresponding attributes.
+- `noscript`: 配列の各要素は新しく作成された `<noscript>` タグにマッピングされ、オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Array<Record<string, any>>`
-- `titleTemplate`: Configures dynamic template to customize the page title on an individual page.
+- `titleTemplate`: 個別ページのページタイトルをカスタマイズするための動的テンプレートを設定します。
   - **Type**: `string` | `((title: string) => string)`
-- `title`: Sets static page title on an individual page.
+- `title`: 個別ページの静的ページタイトルを設定します。
   - **Type**: `string`
-- `bodyAttrs`: Sets attributes of the `<body>` tag. Each object property is mapped to the corresponding attribute.
+- `bodyAttrs`: `<body>` タグの属性を設定します。各オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Record<string, any>`
-- `htmlAttrs`: Sets attributes of the `<html>` tag. Each object property is mapped to the corresponding attribute.
+- `htmlAttrs`: `<html>` タグの属性を設定します。各オブジェクトプロパティは対応する属性にマッピングされます。
   - **Type**: `Record<string, any>`

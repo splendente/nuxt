@@ -1,6 +1,6 @@
 ---
 title: 'createError'
-description: Create an error object with additional metadata.
+description: 追加のメタデータを持つエラーオブジェクトを作成します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,22 +8,22 @@ links:
     size: xs
 ---
 
-You can use this function to create an error object with additional metadata. It is usable in both the Vue and Nitro portions of your app, and is meant to be thrown.
+この関数を使用して、追加のメタデータを持つエラーオブジェクトを作成できます。アプリの Vue と Nitro の両方の部分で使用でき、スローされることを意図しています。
 
-## Parameters
+## パラメーター
 
 - `err`: `string | { cause, data, message, name, stack, statusCode, statusMessage, fatal }`
 
-You can pass either a string or an object to the `createError` function. If you pass a string, it will be used as the error `message`, and the `statusCode` will default to `500`. If you pass an object, you can set multiple properties of the error, such as `statusCode`, `message`, and other error properties.
+`createError` 関数には文字列またはオブジェクトのどちらかを渡すことができます。文字列を渡した場合、それはエラーの `message` として使用され、`statusCode` はデフォルトで `500` になります。オブジェクトを渡した場合、`statusCode`、`message`、その他のエラープロパティなど、エラーの複数のプロパティを設定できます。
 
-## In Vue App
+## Vue App 内で
 
-If you throw an error created with `createError`:
+`createError` で作成したエラーをスローした場合:
 
-- on server-side, it will trigger a full-screen error page which you can clear with `clearError`.
-- on client-side, it will throw a non-fatal error for you to handle. If you need to trigger a full-screen error page, then you can do this by setting `fatal: true`.
+- サーバーサイドでは、`clearError` でクリアできるフルスクリーンエラーページがトリガーされます。
+- クライアントサイドでは、処理するための致命的でないエラーがスローされます。フルスクリーンエラーページをトリガーする必要がある場合は、`fatal: true` を設定することで実行できます。
 
-### Example
+### 例
 
 ```vue [pages/movies/[slug\\].vue]
 <script setup lang="ts">
@@ -35,11 +35,11 @@ if (!data.value) {
 </script>
 ```
 
-## In API Routes
+## API ルート内で
 
-Use `createError` to trigger error handling in server API routes.
+サーバー API ルートでエラーハンドリングをトリガーするために `createError` を使用します。
 
-### Example
+### 例
 
 ```ts [server/api/error.ts]
 export default eventHandler(() => {
@@ -50,6 +50,6 @@ export default eventHandler(() => {
 })
 ```
 
-In API routes, using `createError` by passing an object with a short `statusMessage` is recommended because it can be accessed on the client side. Otherwise, a `message` passed to `createError` on an API route will not propagate to the client. Alternatively, you can use the `data` property to pass data back to the client. In any case, always consider avoiding to put dynamic user input to the message to avoid potential security issues.
+API ルートでは、クライアントサイドでアクセスできるため、短い `statusMessage` を持つオブジェクトを渡して `createError` を使用することが推奨されます。そうでなければ、API ルートで `createError` に渡された `message` はクライアントに伝播されません。代替手段として、`data` プロパティを使用してクライアントにデータを渡すことができます。いずれの場合も、潜在的なセキュリティ問題を避けるため、動的なユーザー入力をメッセージに含めることは常に避けることを検討してください。
 
 :read-more{to="/docs/getting-started/error-handling"}

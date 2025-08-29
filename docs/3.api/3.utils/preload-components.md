@@ -1,6 +1,6 @@
 ---
 title: 'preloadComponents'
-description: Nuxt provides utilities to give you control over preloading components.
+description: Nuxt は、コンポーネントのプリロードを制御するためのユーティリティを提供します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,9 +8,9 @@ links:
     size: xs
 ---
 
-Preloading components loads components that your page will need very soon, which you want to start loading early in rendering lifecycle. This ensures they are available earlier and are less likely to block the page's render, improving performance.
+コンポーネントのプリロードは、ページがまもなく必要とするコンポーネントを読み込み、レンダリングライフサイクルの早い段階で読み込みを開始したいものです。これにより、コンポーネントがより早く利用可能になり、ページのレンダリングをブロックする可能性が低くなり、パフォーマンスが向上します。
 
-Use `preloadComponents` to manually preload individual components that have been registered globally in your Nuxt app. By default Nuxt registers these as async components. You must use the Pascal-cased version of the component name.
+`preloadComponents` を使用して、Nuxt アプリでグローバルに登録されている個々のコンポーネントを手動でプリロードします。デフォルトでは、Nuxt はこれらを非同期コンポーネントとして登録します。コンポーネント名の PascalCase バージョンを使用する必要があります。
 
 ```js
 await preloadComponents('MyGlobalComponent')
@@ -19,5 +19,5 @@ await preloadComponents(['MyGlobalComponent1', 'MyGlobalComponent2'])
 ```
 
 ::note
-On server, `preloadComponents` will have no effect.
+サーバーでは、`preloadComponents` は何の効果もありません。
 ::

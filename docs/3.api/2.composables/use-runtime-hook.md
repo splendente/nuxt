@@ -1,6 +1,6 @@
 ---
 title: useRuntimeHook
-description: Registers a runtime hook in a Nuxt application and ensures it is properly disposed of when the scope is destroyed.
+description: Nuxt アプリケーションでランタイムフックを登録し、スコープが破棄されたときに適切に破棄されることを保証します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,7 +9,7 @@ links:
 ---
 
 ::important
-This composable is available in Nuxt v3.14+.
+この composable は Nuxt v3.14+ で利用できます。
 ::
 
 ```ts [signature]
@@ -19,23 +19,23 @@ function useRuntimeHook<THookName extends keyof RuntimeNuxtHooks>(
 ): void
 ```
 
-## Usage
+## 使用方法
 
-### Parameters
+### パラメーター
 
-- `name`: The name of the runtime hook to register. You can see the full list of [runtime Nuxt hooks here](/docs/api/advanced/hooks#app-hooks-runtime).
-- `fn`: The callback function to execute when the hook is triggered. The function signature varies based on the hook name.
+- `name`: 登録するランタイムフックの名前。[ランタイム Nuxt フックの完全なリストはこちら](/docs/api/advanced/hooks#app-hooks-runtime)で参照できます。
+- `fn`: フックがトリガーされたときに実行されるコールバック関数。関数のシグネチャはフック名によって異なります。
 
-### Returns
+### 戻り値
 
-The composable doesn't return a value, but it automatically unregisters the hook when the component's scope is destroyed.
+この composable は値を返しませんが、コンポーネントのスコープが破棄されたときに自動的にフックの登録を解除します。
 
-## Example
+## 例
 
 ```vue twoslash [pages/index.vue]
 <script setup lang="ts">
-// Register a hook that runs every time a link is prefetched, but which will be
-// automatically cleaned up (and not called again) when the component is unmounted
+// リンクがプリフェッチされるたびに実行されるフックを登録しますが、
+// コンポーネントがアンマウントされたときに自動的にクリーンアップされます（再度呼ばれることはありません）
 useRuntimeHook('link:prefetch', (link) => {
   console.log('Prefetching', link)
 })

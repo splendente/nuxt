@@ -1,6 +1,6 @@
 ---
 title: "nuxt analyze"
-description: "Analyze the production bundle or your Nuxt application."
+description: "Nuxt アプリケーションのプロダクションバンドルを解析します。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,28 +14,28 @@ npx nuxt analyze [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbose>
 ```
 <!--/analyze-cmd-->
 
-The `analyze` command builds Nuxt and analyzes the production bundle (experimental).
+`analyze` コマンドは Nuxt をビルドし、プロダクションバンドルを解析します（実験的）。
 
-## Arguments
+## 引数
 
 <!--analyze-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`ROOTDIR="."` | Specifies the working directory (default: `.`)
+`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
 <!--/analyze-args-->
 
-## Options
+## オプション
 
 <!--analyze-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
-`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
-`--dotenv` |  | Path to `.env` file to load, relative to the root directory
-`--name=<name>` | `default` | Name of the analysis
-`--no-serve` |  | Skip serving the analysis results
+`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
+`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--dotenv` |  | 読み込む `.env` ファイルのパス（ルートディレクトリからの相対パス）
+`--name=<name>` | `default` | 解析の名前
+`--no-serve` |  | 解析結果の配信をスキップします
 <!--/analyze-opts-->
 
 ::note
-This command sets `process.env.NODE_ENV` to `production`.
+このコマンドは `process.env.NODE_ENV` を `production` に設定します。
 ::

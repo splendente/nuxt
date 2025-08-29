@@ -1,6 +1,6 @@
 ---
 title: 'useSeoMeta'
-description: The useSeoMeta composable lets you define your site's SEO meta tags as a flat object with full TypeScript support.
+description: useSeoMeta composable を使用すると、サイトの SEO メタタグを完全な TypeScript サポートでフラットオブジェクトとして定義できます。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,15 +8,15 @@ links:
     size: xs
 ---
 
-This helps you avoid common mistakes, such as using `name` instead of `property`, as well as typos - with over 100+ meta tags fully typed.
+これは、`property` の代わりに `name` を使用するなどの一般的な間違やタイプミスを防ぐのに役立ちます - 100+ 以上のメタタグが完全に型付けされています。
 
 ::important
-This is the recommended way to add meta tags to your site as it is XSS safe and has full TypeScript support.
+XSS 安全で完全な TypeScript サポートを持つため、これはサイトにメタタグを追加する推奨される方法です。
 ::
 
 :read-more{to="/docs/getting-started/seo-meta"}
 
-## Usage
+## 使用方法
 
 ```vue [app.vue]
 <script setup lang="ts">
@@ -31,7 +31,7 @@ useSeoMeta({
 </script>
 ```
 
-When inserting tags that are reactive, you should use the computed getter syntax (`() => value`):
+リアクティブなタグを挿入するときは、computed getter 構文 (`() => value`) を使用すべきです:
 
 ```vue [app.vue]
 <script setup lang="ts">
@@ -39,37 +39,37 @@ const title = ref('My title')
 
 useSeoMeta({
   title,
-  description: () => `This is a description for the ${title.value} page`
+  description: () => `これは ${title.value} ページの説明です`
 })
 </script>
 ```
 
-## Parameters
+## パラメーター
 
-There are over 100 parameters. See the [full list of parameters in the source code](https://github.com/harlan-zw/zhead/blob/main/packages/zhead/src/metaFlat.ts#L1035).
+100 以上のパラメーターがあります。[ソースコードのパラメーターの完全なリスト](https://github.com/harlan-zw/zhead/blob/main/packages/zhead/src/metaFlat.ts#L1035)を参照してください。
 
 :read-more{to="/docs/getting-started/seo-meta"}
 
-## Performance
+## パフォーマンス
 
-In most instances, SEO meta tags don't need to be reactive as search engine robots primarily scan the initial page load.
+ほとんどの場合、SEO メタタグはリアクティブである必要がありません。検索エンジンロボットは主に初期ページ読み込みをスキャンするからです。
 
-For better performance, you can wrap your `useSeoMeta` calls in a server-only condition when the meta tags don't need to be reactive:
+パフォーマンスを向上させるため、メタタグがリアクティブである必要がない場合、`useSeoMeta` 呼び出しをサーバーのみの条件でラップできます:
 
 ```vue [app.vue]
 <script setup lang="ts">
 if (import.meta.server) {
-  // These meta tags will only be added during server-side rendering
+  // これらのメタタグはサーバーサイドレンダリング中のみ追加されます
   useSeoMeta({
     robots: 'index, follow',
-    description: 'Static description that does not need reactivity',
+    description: 'リアクティビティを必要としない静的な説明',
     ogImage: 'https://example.com/image.png',
-    // other static meta tags...
+    // その他の静的なメタタグ...
   })
 }
 
 const dynamicTitle = ref('My title')
-// Only use reactive meta tags outside the condition when necessary
+// 必要な場合のみ条件の外でリアクティブなメタタグを使用
 useSeoMeta({
   title: () => dynamicTitle.value,
   ogTitle: () => dynamicTitle.value,
@@ -77,4 +77,4 @@ useSeoMeta({
 </script>
 ```
 
-This previously used the [`useServerSeoMeta`](/docs/api/composables/use-server-seo-meta) composable, but it has been deprecated in favor of this approach.
+以前は [`useServerSeoMeta`](/docs/api/composables/use-server-seo-meta) composable を使用していましたが、このアプローチが推奨され、非推奨となりました。

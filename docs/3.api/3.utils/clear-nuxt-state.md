@@ -1,6 +1,6 @@
 ---
 title: 'clearNuxtState'
-description: Delete the cached state of useState.
+description: useState のキャッシュされた state を削除します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,15 +9,15 @@ links:
 ---
 
 ::note
-This method is useful if you want to invalidate the state of `useState`.
+このメソッドは、`useState` の state を無効化したい場合に便利です。
 ::
 
-## Type
+## 型
 
 ```ts
 clearNuxtState (keys?: string | string[] | ((key: string) => boolean)): void
 ```
 
-## Parameters
+## パラメーター
 
-- `keys`: One or an array of keys that are used in [`useState`](/docs/api/composables/use-state) to delete their cached state. If no keys are provided, **all state** will be invalidated.
+- `keys`: [`useState`](/docs/api/composables/use-state) で使用されるキーの単一または配列で、それらのキャッシュされた state を削除します。キーが提供されない場合、**すべての state** が無効化されます。

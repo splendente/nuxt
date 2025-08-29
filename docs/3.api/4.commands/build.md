@@ -1,6 +1,6 @@
 ---
 title: "nuxt build"
-description: "Build your Nuxt application."
+description: "Nuxt アプリケーションをビルドします。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,33 +14,33 @@ npx nuxt build [ROOTDIR] [--cwd=<directory>] [--logLevel=<silent|info|verbose>] 
 ```
 <!--/build-cmd-->
 
-The `build` command creates a `.output` directory with all your application, server and dependencies ready for production.
+`build` コマンドは、アプリケーション、サーバー、および依存関係すべてがプロダクション対応となった `.output` ディレクトリを作成します。
 
-## Arguments
+## 引数
 
 <!--build-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`ROOTDIR="."` | Specifies the working directory (default: `.`)
+`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
 <!--/build-args-->
 
-## Options
+## オプション
 
 <!--build-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
-`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
-`--prerender` |  | Build Nuxt and prerender static routes
-`--preset` |  | Nitro server preset
-`--dotenv` |  | Path to `.env` file to load, relative to the root directory
-`--envName` |  | The environment to use when resolving configuration overrides (default is `production` when building, and `development` when running the dev server)
+`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
+`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--prerender` |  | Nuxt をビルドして静的ルートをプリレンダリングします
+`--preset` |  | Nitro サーバープリセット
+`--dotenv` |  | 読み込む `.env` ファイルのパス（ルートディレクトリからの相対パス）
+`--envName` |  | 設定オーバーライドを解決する際に使用する環境（ビルド時のデフォルトは `production`、dev サーバー実行時のデフォルトは `development`）
 <!--/build-opts-->
 
 ::note
-This command sets `process.env.NODE_ENV` to `production`.
+このコマンドは `process.env.NODE_ENV` を `production` に設定します。
 ::
 
 ::note
-`--prerender` will always set the `preset` to `static`
+`--prerender` は常に `preset` を `static` に設定します
 ::

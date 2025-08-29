@@ -1,6 +1,6 @@
 ---
 title: "nuxt info"
-description: The info command logs information about the current or specified Nuxt project.
+description: info コマンドは、現在または指定された Nuxt プロジェクトに関する情報をログ出力します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,20 +14,20 @@ npx nuxt info [ROOTDIR] [--cwd=<directory>]
 ```
 <!--/info-cmd-->
 
-The `info` command logs information about the current or specified Nuxt project.
+`info` コマンドは、現在または指定された Nuxt プロジェクトに関する情報をログ出力します。
 
-## Arguments
+## 引数
 
 <!--info-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`ROOTDIR="."` | Specifies the working directory (default: `.`)
+`ROOTDIR="."` | 作業ディレクトリを指定します（デフォルト: `.`）
 <!--/info-args-->
 
-## Options
+## オプション
 
 <!--info-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` |  | Specify the working directory, this takes precedence over ROOTDIR (default: `.`)
+`--cwd=<directory>` |  | 作業ディレクトリを指定します。これは ROOTDIR より優先されます（デフォルト: `.`）
 <!--/info-opts-->

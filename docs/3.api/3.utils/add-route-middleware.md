@@ -1,6 +1,6 @@
 ---
 title: 'addRouteMiddleware'
-description: 'addRouteMiddleware() is a helper function to dynamically add middleware in your application.'
+description: 'addRouteMiddleware() はアプリケーションでミドルウェアを動的に追加するためのヘルパー関数です。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,10 +9,10 @@ links:
 ---
 
 ::note
-Route middleware are navigation guards stored in the [`middleware/`](/docs/guide/directory-structure/middleware) directory of your Nuxt application (unless [set otherwise](/docs/api/nuxt-config#middleware)).
+ルートミドルウェアは、Nuxt アプリケーションの [`middleware/`](/docs/guide/directory-structure/middleware) ディレクトリに保存されるナビゲーションガードです（[別の設定](/docs/api/nuxt-config#middleware)をしない限り）。
 ::
 
-## Type
+## 型
 
 ```ts
 function addRouteMiddleware (name: string, middleware: RouteMiddleware, options?: AddRouteMiddlewareOptions): void
@@ -23,64 +23,64 @@ interface AddRouteMiddlewareOptions {
 }
 ```
 
-## Parameters
+## パラメーター
 
 ### `name`
 
 - **Type:** `string` | `RouteMiddleware`
 
-Can be either a string or a function of type `RouteMiddleware`. Function takes the next route `to` as the first argument and the current route `from` as the second argument, both of which are Vue route objects.
+文字列または `RouteMiddleware` 型の関数のいずれかです。関数は次のルート `to` を第一引数、現在のルート `from` を第二引数として受け取り、どちらも Vue ルートオブジェクトです。
 
-Learn more about available properties of [route objects](/docs/api/composables/use-route).
+[ルートオブジェクト](/docs/api/composables/use-route)の利用可能なプロパティについて詳しく学んでください。
 
 ### `middleware`
 
 - **Type:** `RouteMiddleware`
 
-The second argument is a function of type `RouteMiddleware`. Same as above, it provides `to` and `from` route objects. It becomes optional if the first argument in `addRouteMiddleware()` is already passed as a function.
+第二引数は `RouteMiddleware` 型の関数です。上記と同様に、`to` と `from` のルートオブジェクトを提供します。`addRouteMiddleware()` の第一引数がすでに関数として渡されている場合はオプションになります。
 
 ### `options`
 
 - **Type:** `AddRouteMiddlewareOptions`
 
-An optional `options` argument lets you set the value of `global` to `true` to indicate whether the router middleware is global or not (set to `false` by default).
+オプションの `options` 引数では、ルーターミドルウェアがグローバルかどうかを示すために `global` の値を `true` に設定できます（デフォルトでは `false` に設定）。
 
-## Examples
+## 例
 
-### Named Route Middleware
+### 名前付きルートミドルウェア
 
-Named route middleware is defined by providing a string as the first argument and a function as the second:
+名前付きルートミドルウェアは、第一引数に文字列、第二引数に関数を提供することで定義されます:
 
 ```ts [plugins/my-plugin.ts]
 export default defineNuxtPlugin(() => {
   addRouteMiddleware('named-middleware', () => {
-    console.log('named middleware added in Nuxt plugin')
+    console.log('Nuxt プラグインで名前付きミドルウェアが追加されました')
   })
 })
 ```
 
-When defined in a plugin, it overrides any existing middleware of the same name located in the `middleware/` directory.
+プラグインで定義された場合、`middleware/` ディレクトリにある同名の既存のミドルウェアをオーバーライドします。
 
-### Global Route Middleware
+### グローバルルートミドルウェア
 
-Global route middleware can be defined in two ways:
+グローバルルートミドルウェアは 2 つの方法で定義できます:
 
-- Pass a function directly as the first argument without a name. It will automatically be treated as global middleware and applied on every route change.
+- 名前なしで関数を第一引数として直接渡す。自動的にグローバルミドルウェアとして扱われ、すべてのルート変更で適用されます。
 
   ```ts [plugins/my-plugin.ts]
   export default defineNuxtPlugin(() => {
     addRouteMiddleware((to, from) => {
-      console.log('anonymous global middleware that runs on every route change')
+      console.log('すべてのルート変更で実行される匿名グローバルミドルウェア')
     })
   })
   ```
 
-- Set an optional, third argument `{ global: true }` to indicate whether the route middleware is global.
+- ルートミドルウェアがグローバルかどうかを示すために、オプションの第 3 引数 `{ global: true }` を設定する。
 
   ```ts [plugins/my-plugin.ts]
   export default defineNuxtPlugin(() => {
     addRouteMiddleware('global-middleware', (to, from) => {
-        console.log('global middleware that runs on every route change')
+        console.log('すべてのルート変更で実行されるグローバルミドルウェア')
       },
       { global: true }
     )

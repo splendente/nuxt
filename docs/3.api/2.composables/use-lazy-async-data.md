@@ -1,6 +1,6 @@
 ---
 title: useLazyAsyncData
-description: This wrapper around useAsyncData triggers navigation immediately.
+description: useAsyncData のラッパーで、ナビゲーションを即座にトリガーします。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,28 +8,28 @@ links:
     size: xs
 ---
 
-## Description
+## 説明
 
-By default, [`useAsyncData`](/docs/api/composables/use-async-data) blocks navigation until its async handler is resolved. `useLazyAsyncData` provides a wrapper around [`useAsyncData`](/docs/api/composables/use-async-data) that triggers navigation before the handler is resolved by setting the `lazy` option to `true`.
+デフォルトでは、[`useAsyncData`](/docs/api/composables/use-async-data) は非同期ハンドラーが解決されるまでナビゲーションをブロックします。`useLazyAsyncData` は [`useAsyncData`](/docs/api/composables/use-async-data) のラッパーで、`lazy` オプションを `true` に設定してハンドラーが解決される前にナビゲーションをトリガーします。
 
 ::note
-`useLazyAsyncData` has the same signature as [`useAsyncData`](/docs/api/composables/use-async-data).
+`useLazyAsyncData` は [`useAsyncData`](/docs/api/composables/use-async-data) と同じシグネチャを持ちます。
 ::
 
 :read-more{to="/docs/api/composables/use-async-data"}
 
-## Example
+## 例
 
 ```vue [pages/index.vue]
 <script setup lang="ts">
-/* Navigation will occur before fetching is complete.
-  Handle 'pending' and 'error' states directly within your component's template
+/* フェッチが完了する前にナビゲーションが発生します。
+  コンポーネントのテンプレート内で 'pending' と 'error' 状態を直接処理してください
 */
 const { status, data: count } = await useLazyAsyncData('count', () => $fetch('/api/count'))
 
 watch(count, (newCount) => {
-  // Because count might start out null, you won't have access
-  // to its contents immediately, but you can watch it.
+  // count は初期値が null の可能性があるため、即座に
+  // その内容にアクセスできませんが、監視することができます。
 })
 </script>
 
@@ -41,7 +41,7 @@ watch(count, (newCount) => {
 ```
 
 ::warning
-`useLazyAsyncData` is a reserved function name transformed by the compiler, so you should not name your own function `useLazyAsyncData`.
+`useLazyAsyncData` はコンパイラによって変換される予約関数名であるため、独自の関数に `useLazyAsyncData` という名前を付けるべきではありません。
 ::
 
 :read-more{to="/docs/getting-started/data-fetching"}

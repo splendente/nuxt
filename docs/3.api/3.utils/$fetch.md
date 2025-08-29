@@ -1,6 +1,6 @@
 ---
 title: "$fetch"
-description: Nuxt uses ofetch to expose globally the $fetch helper for making HTTP requests.
+description: Nuxt は ofetch を使用して HTTP リクエストを行うための $fetch ヘルパーをグローバルに公開しています。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,36 +8,36 @@ links:
     size: xs
 ---
 
-Nuxt uses [ofetch](https://github.com/unjs/ofetch) to expose globally the `$fetch` helper for making HTTP requests within your Vue app or API routes.
+Nuxt は [ofetch](https://github.com/unjs/ofetch) を使用して、Vue アプリや API ルート内で HTTP リクエストを行うための `$fetch` ヘルパーをグローバルに公開しています。
 
 ::tip{icon="i-lucide-rocket"}
-During server-side rendering, calling `$fetch` to fetch your internal [API routes](/docs/guide/directory-structure/server) will directly call the relevant function (emulating the request), **saving an additional API call**.
+サーバーサイドレンダリング中に `$fetch` を呼び出して内部の [API ルート](/docs/guide/directory-structure/server)をフェッチすると、関連関数を直接呼び出し（リクエストをエミュレート）、**追加の API 呼び出しを節約**します。
 ::
 
 ::note{color="blue" icon="i-lucide-info"}
-Using `$fetch` in components without wrapping it with [`useAsyncData`](/docs/api/composables/use-async-data) causes fetching the data twice: initially on the server, then again on the client-side during hydration, because `$fetch` does not transfer state from the server to the client. Thus, the fetch will be executed on both sides because the client has to get the data again.
+[`useAsyncData`](/docs/api/composables/use-async-data) でラップせずにコンポーネントで `$fetch` を使用すると、データを 2 回フェッチしてしまいます：最初にサーバーで、その後 hydration 中にクライアントサイドで再度フェッチします。これは `$fetch` がサーバーからクライアントに状態を転送しないためです。したがって、クライアントがデータを再取得する必要があるため、フェッチが両方で実行されます。
 ::
 
-## Usage
+## 使用方法
 
-We recommend to use [`useFetch`](/docs/api/composables/use-fetch) or [`useAsyncData`](/docs/api/composables/use-async-data) + `$fetch` to prevent double data fetching when fetching the component data.
+コンポーネントデータをフェッチする際にデータの二重フェッチを防ぐため、[`useFetch`](/docs/api/composables/use-fetch) または [`useAsyncData`](/docs/api/composables/use-async-data) + `$fetch` の使用を推奨します。
 
 ```vue [app.vue]
 <script setup lang="ts">
-// During SSR data is fetched twice, once on the server and once on the client.
+// SSR 中にデータが 2 回フェッチされます。サーバーで 1 回、クライアントで 1 回。
 const dataTwice = await $fetch('/api/item')
 
-// During SSR data is fetched only on the server side and transferred to the client.
+// SSR 中にデータはサーバーサイドでのみフェッチされ、クライアントに転送されます。
 const { data } = await useAsyncData('item', () => $fetch('/api/item'))
 
-// You can also useFetch as shortcut of useAsyncData + $fetch
+// useAsyncData + $fetch のショートカットとして useFetch を使用することもできます
 const { data } = await useFetch('/api/item')
 </script>
 ```
 
 :read-more{to="/docs/getting-started/data-fetching"}
 
-You can use `$fetch` in any methods that are executed only on client-side.
+クライアントサイドでのみ実行される任意のメソッドで `$fetch` を使用できます。
 
 ```vue [pages/contact.vue]
 <script setup lang="ts">
@@ -55,24 +55,24 @@ async function contactForm() {
 ```
 
 ::tip
-`$fetch` is the preferred way to make HTTP calls in Nuxt instead of [@nuxt/http](https://github.com/nuxt/http) and [@nuxtjs/axios](https://github.com/nuxt-community/axios-module) that are made for Nuxt 2.
+`$fetch` は、Nuxt 2 用に作られた [@nuxt/http](https://github.com/nuxt/http) や [@nuxtjs/axios](https://github.com/nuxt-community/axios-module) の代わりに、Nuxt で HTTP 呼び出しを行う推奨される方法です。
 ::
 
 ::note
-If you use `$fetch` to call an (external) HTTPS URL with a self-signed certificate in development, you will need to set `NODE_TLS_REJECT_UNAUTHORIZED=0` in your environment.
+開発環境で自己署名証明書を使用する（外部）HTTPS URL を `$fetch` で呼び出す場合、環境変数に `NODE_TLS_REJECT_UNAUTHORIZED=0` を設定する必要があります。
 ::
 
-### Passing Headers and Cookies
+### ヘッダーとクッキーの渡し
 
-When we call `$fetch` in the browser, user headers like `cookie` will be directly sent to the API.
+ブラウザで `$fetch` を呼び出すとき、`cookie` などのユーザーヘッダーは API に直接送信されます。
 
-However, during Server-Side Rendering, due to security risks such as **Server-Side Request Forgery (SSRF)** or **Authentication Misuse**, the `$fetch` wouldn't include the user's browser cookies, nor pass on cookies from the fetch response.
+しかし、サーバーサイドレンダリング中は、**サーバーサイドリクエスト偽造（SSRF）**や**認証の誤用**などのセキュリティリスクのため、`$fetch` はユーザーのブラウザクッキーを含めず、フェッチレスポンスからのクッキーを渡しません。
 
 ::code-group
 
 ```vue [pages/index.vue]
 <script setup lang="ts">
-// This will NOT forward headers or cookies during SSR
+// これは SSR 中にヘッダーやクッキーを転送しません
 const { data } = await useAsyncData(() => $fetch('/api/cookies'))
 </script>
 ```
@@ -80,19 +80,19 @@ const { data } = await useAsyncData(() => $fetch('/api/cookies'))
 ```ts [server/api/cookies.ts]
 export default defineEventHandler((event) => {
   const foo = getCookie(event, 'foo')
-  // ... Do something with the cookie
+  // ... クッキーで何かを行う
 })
 ```
 ::
 
-If you need to forward headers and cookies on the server, you must manually pass them:
+サーバーでヘッダーとクッキーを転送する必要がある場合、手動で渡す必要があります:
 
 ```vue [pages/index.vue]
 <script setup lang="ts">
-// This will forward the user's headers and cookies to `/api/cookies`
+// これはユーザーのヘッダーとクッキーを `/api/cookies` に転送します
 const requestFetch = useRequestFetch()
 const { data } = await useAsyncData(() => requestFetch('/api/cookies'))
 </script>
 ```
 
-However, when calling `useFetch` with a relative URL on the server, Nuxt will use [`useRequestFetch`](/docs/api/composables/use-request-fetch) to proxy headers and cookies (with the exception of headers not meant to be forwarded, like `host`).
+しかし、サーバーで相対 URL で `useFetch` を呼び出すとき、Nuxt は [`useRequestFetch`](/docs/api/composables/use-request-fetch) を使用してヘッダーとクッキーをプロキシします（`host` などの転送されるべきではないヘッダーを除く）。

@@ -1,6 +1,6 @@
 ---
 title: 'definePageMeta'
-description: 'Define metadata for your page components.'
+description: 'ページコンポーネントのメタデータを定義します。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,7 +8,7 @@ links:
     size: xs
 ---
 
-`definePageMeta` is a compiler macro that you can use to set metadata for your **page** components located in the [`pages/`](/docs/guide/directory-structure/pages) directory (unless [set otherwise](/docs/api/nuxt-config#pages)). This way you can set custom metadata for each static or dynamic route of your Nuxt application.
+`definePageMeta` は、[`pages/`](/docs/guide/directory-structure/pages) ディレクトリに配置された **ページ** コンポーネントにメタデータを設定するために使用できるコンパイラーマクロです（[別途設定](/docs/api/nuxt-config#pages)しない限り）。この方法で、Nuxt アプリケーションの各静的または動的ルートにカスタムメタデータを設定できます。
 
 ```vue [pages/some-page.vue]
 <script setup lang="ts">
@@ -20,7 +20,7 @@ definePageMeta({
 
 :read-more{to="/docs/guide/directory-structure/pages#page-metadata"}
 
-## Type
+## 型
 
 ```ts
 definePageMeta(meta: PageMeta) => void
@@ -44,115 +44,115 @@ interface PageMeta {
 }
 ```
 
-## Parameters
+## パラメーター
 
 ### `meta`
 
 - **Type**: `PageMeta`
 
-  An object accepting the following page metadata:
+  以下のページメタデータを受け入れるオブジェクト:
 
   **`name`**
 
   - **Type**: `string`
 
-    You may define a name for this page's route. By default, name is generated based on path inside the [`pages/` directory](/docs/guide/directory-structure/pages).
+    このページのルートの名前を定義できます。デフォルトでは、[`pages/` ディレクトリ](/docs/guide/directory-structure/pages)内のパスに基づいて名前が生成されます。
 
   **`path`**
 
   - **Type**: `string`
 
-    You may define a [custom regular expression](#using-a-custom-regular-expression) if you have a more complex pattern than can be expressed with the file name.
+    ファイル名で表現できるよりも複雑なパターンがある場合は、[カスタム正規表現](#using-a-custom-regular-expression)を定義できます。
 
   **`props`**
   
   - **Type**: [`RouteRecordRaw['props']`](https://router.vuejs.org/guide/essentials/passing-props)
 
-    Allows accessing the route `params` as props passed to the page component.
+    ルートの `params` をページコンポーネントに渡される props としてアテセスできるようにします。
 
   **`alias`**
 
   - **Type**: `string | string[]`
 
-    Aliases for the record. Allows defining extra paths that will behave like a copy of the record. Allows having paths shorthands like `/users/:id` and `/u/:id`. All `alias` and `path` values must share the same params.
+    レコードのエイリアス。レコードのコピーのように動作する追加パスを定義できます。`/users/:id` や `/u/:id` などのパスの短縮形を持つことができます。すべての `alias` と `path` の値は同じ params を共有する必要があります。
 
   **`keepalive`**
 
   - **Type**: `boolean` | [`KeepAliveProps`](https://vuejs.org/api/built-in-components.html#keepalive)
 
-    Set to `true` when you want to preserve page state across route changes or use the [`KeepAliveProps`](https://vuejs.org/api/built-in-components.html#keepalive) for a fine-grained control.
+    ルート変更間でページ状態を保持したい場合は `true` に設定するか、きめ細かい制御のために [`KeepAliveProps`](https://vuejs.org/api/built-in-components.html#keepalive) を使用します。
 
   **`key`**
 
   - **Type**: `false` | `string` | `((route: RouteLocationNormalizedLoaded) => string)`
 
-    Set `key` value when you need more control over when the `<NuxtPage>` component is re-rendered.
+    `<NuxtPage>` コンポーネントが再レンダリングされるタイミングをより細かく制御したい場合は `key` 値を設定します。
 
   **`layout`**
 
   - **Type**: `false` | `LayoutKey` | `Ref<LayoutKey>` | `ComputedRef<LayoutKey>`
 
-    Set a static or dynamic name of the layout for each route. This can be set to `false` in case the default layout needs to be disabled.
+    各ルートのレイアウトの静的または動的な名前を設定します。デフォルトレイアウトを無効にする必要がある場合は `false` に設定できます。
 
   **`layoutTransition`**
 
   - **Type**: `boolean` | [`TransitionProps`](https://vuejs.org/api/built-in-components.html#transition)
 
-    Set name of the transition to apply for current layout. You can also set this value to `false` to disable the layout transition.
+    現在のレイアウトに適用するトランジションの名前を設定します。レイアウトトランジションを無効にするために、この値を `false` に設定することもできます。
 
   **`middleware`**
 
   - **Type**: `MiddlewareKey` | [`NavigationGuard`](https://router.vuejs.org/api/interfaces/NavigationGuard.html#navigationguard) | `Array<MiddlewareKey | NavigationGuard>`
 
-    Define anonymous or named middleware directly within `definePageMeta`. Learn more about [route middleware](/docs/guide/directory-structure/middleware).
+    `definePageMeta` 内で直接匿名または名前付きミドルウェアを定義します。[ルートミドルウェア](/docs/guide/directory-structure/middleware)について詳しく学んでください。
 
   **`pageTransition`**
 
   - **Type**: `boolean` | [`TransitionProps`](https://vuejs.org/api/built-in-components.html#transition)
 
-    Set name of the transition to apply for current page. You can also set this value to `false` to disable the page transition.
+    現在のページに適用するトランジションの名前を設定します。ページトランジションを無効にするために、この値を `false` に設定することもできます。
 
   **`viewTransition`**
 
   - **Type**: `boolean | 'always'`
 
-    **Experimental feature, only available when [enabled in your nuxt.config file](/docs/getting-started/transitions#view-transitions-api-experimental)**</br>
-    Enable/disable View Transitions for the current page.
-    If set to true, Nuxt will not apply the transition if the users browser matches `prefers-reduced-motion: reduce` (recommended). If set to `always`, Nuxt will always apply the transition.
+    **実験的機能、[nuxt.config ファイルで有効化](/docs/getting-started/transitions#view-transitions-api-experimental)した場合のみ利用可能**</br>
+    現在のページの View Transitions を有効/無効にします。
+    true に設定した場合、ユーザーのブラウザーが `prefers-reduced-motion: reduce` にマッチした場合、Nuxt はトランジションを適用しません（推奨）。`always` に設定した場合、Nuxt は常にトランジションを適用します。
 
   **`redirect`**
 
   - **Type**: [`RouteRecordRedirectOption`](https://router.vuejs.org/guide/essentials/redirect-and-alias.html#redirect-and-alias)
 
-    Where to redirect if the route is directly matched. The redirection happens before any navigation guard and triggers a new navigation with the new target location.
+    ルートが直接マッチした場合のリダイレクト先。リダイレクトはナビゲーションガードの前に発生し、新しいターゲットロケーションで新しいナビゲーションをトリガーします。
 
   **`validate`**
 
   - **Type**: `(route: RouteLocationNormalized) => boolean | Promise<boolean> | Partial<NuxtError> | Promise<Partial<NuxtError>>`
 
-    Validate whether a given route can validly be rendered with this page. Return true if it is valid, or false if not. If another match can't be found, this will mean a 404. You can also directly return an object with `statusCode`/`statusMessage` to respond immediately with an error (other matches will not be checked).
+    指定されたルートがこのページで有効にレンダリングできるかどうかを検証します。有効な場合は true、そうでない場合は false を返します。他のマッチが見つからない場合は 404 を意味します。`statusCode`/`statusMessage` を持つオブジェクトを直接返して、エラーで即座に応答することもできます（他のマッチはチェックされません）。
 
   **`scrollToTop`**
 
   - **Type**: `boolean | (to: RouteLocationNormalized, from: RouteLocationNormalized) => boolean`
 
-    Tell Nuxt to scroll to the top before rendering the page or not. If you want to overwrite the default scroll behavior of Nuxt, you can do so in `~/router.options.ts` (see [custom routing](/docs/guide/recipes/custom-routing#using-approuteroptions)) for more info.
+    ページをレンダリングする前にトップにスクロールするかどうかを Nuxt に指示します。Nuxt のデフォルトスクロール動作を上書きしたい場合は、`~/router.options.ts` で行うことができます（詳細は [カスタムルーティング](/docs/guide/recipes/custom-routing#using-approuteroptions) を参照）。
 
   **`[key: string]`**
 
   - **Type**: `any`
 
-    Apart from the above properties, you can also set **custom** metadata. You may wish to do so in a type-safe way by [augmenting the type of the `meta` object](/docs/guide/directory-structure/pages/#typing-custom-metadata).
+    上記のプロパティ以外に、**カスタム** メタデータを設定することもできます。[`meta` オブジェクトの型を拡張](/docs/guide/directory-structure/pages/#typing-custom-metadata)して型安全な方法で行うことをお勧めします。
 
-## Examples
+## 例
 
-### Basic Usage
+### 基本的な使用方法
 
-The example below demonstrates:
+以下の例は次のことを示しています:
 
-- how `key` can be a function that returns a value;
-- how `keepalive` property makes sure that the `<modal>` component is not cached when switching between multiple components;
-- adding `pageType` as a custom property:
+- `key` が値を返す関数にできる方法
+- `keepalive` プロパティが複数のコンポーネント間で切り替えるときに `<modal>` コンポーネントがキャッシュされないことを保証する方法
+- カスタムプロパティとして `pageType` を追加する方法:
 
 ```vue [pages/some-page.vue]
 <script setup lang="ts">
@@ -168,14 +168,14 @@ definePageMeta({
 </script>
 ```
 
-### Defining Middleware
+### ミドルウェアの定義
 
-The example below shows how the middleware can be defined using a `function` directly within the `definePageMeta` or set as a `string` that matches the middleware file name located in the `middleware/` directory:
+以下の例は、`definePageMeta` 内で直接 `function` を使用してミドルウェアを定義する方法、または `middleware/` ディレクトリにあるミドルウェアファイル名と一致する `string` として設定する方法を示しています:
 
 ```vue [pages/some-page.vue]
 <script setup lang="ts">
 definePageMeta({
-  // define middleware as a function
+  // ミドルウェアを関数として定義
   middleware: [
     function (to, from) {
       const auth = useState('auth')
@@ -190,22 +190,22 @@ definePageMeta({
     }
   ],
 
-  // ... or a string
+  // ... または文字列
   middleware: 'auth'
 
-  // ... or multiple strings
+  // ... または複数の文字列
   middleware: ['auth', 'another-named-middleware']
 })
 </script>
 ```
 
-### Using a Custom Regular Expression
+### カスタム正規表現の使用
 
-A custom regular expression is a good way to resolve conflicts between overlapping routes, for instance:
+カスタム正規表現は、重複するルート間の競合を解決する良い方法です。例えば:
 
-The two routes "/test-category" and "/1234-post" match both `[postId]-[postSlug].vue` and `[categorySlug].vue` page routes.
+2つのルート「/test-category」と「/1234-post」が `[postId]-[postSlug].vue` と `[categorySlug].vue` の両方のページルートにマッチします。
 
-To make sure that we are only matching digits (`\d+`) for `postId` in the `[postId]-[postSlug]` route, we can add the following to the `[postId]-[postSlug].vue` page template:
+`[postId]-[postSlug]` ルートで `postId` に数字のみ（`\d+`）をマッチさせることを確実にするために、`[postId]-[postSlug].vue` ページテンプレートに以下を追加できます:
 
 ```vue [pages/[postId\\]-[postSlug\\].vue]
 <script setup lang="ts">
@@ -215,19 +215,19 @@ definePageMeta({
 </script>
 ```
 
-For more examples see [Vue Router's Matching Syntax](https://router.vuejs.org/guide/essentials/route-matching-syntax.html).
+さらなる例は [Vue Router のマッチング構文](https://router.vuejs.org/guide/essentials/route-matching-syntax.html) を参照してください。
 
-### Defining Layout
+### レイアウトの定義
 
-You can define the layout that matches the layout's file name located (by default) in the [`layouts/` directory](/docs/guide/directory-structure/layouts). You can also disable the layout by setting the `layout` to `false`:
+（デフォルトで）[`layouts/` ディレクトリ](/docs/guide/directory-structure/layouts)にあるレイアウトのファイル名と一致するレイアウトを定義できます。`layout` を `false` に設定してレイアウトを無効にすることもできます:
 
 ```vue [pages/some-page.vue]
 <script setup lang="ts">
 definePageMeta({
-  // set custom layout
+  // カスタムレイアウトを設定
   layout: 'admin'
 
-  // ... or disable a default layout
+  // ... またはデフォルトレイアウトを無効化
   layout: false
 })
 </script>

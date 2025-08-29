@@ -1,6 +1,6 @@
 ---
 title: "nuxt module"
-description: "Search and add modules to your Nuxt application with the command line."
+description: "コマンドラインで Nuxt アプリケーションにモジュールを検索し追加します。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,7 +8,7 @@ links:
     size: xs
 ---
 
-Nuxt provides a few utilities to work with [Nuxt modules](/modules) seamlessly.
+Nuxt は [Nuxt modules](/modules) をシームレスに扱うためのいくつかのユーティリティを提供します。
 
 ## nuxt module add
 
@@ -19,32 +19,32 @@ npx nuxt module add <MODULENAME> [--cwd=<directory>] [--logLevel=<silent|info|ve
 <!--/module-add-cmd-->
 
 <!--module-add-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`MODULENAME` | Module name
+`MODULENAME` | モジュール名
 <!--/module-add-args-->
 
 <!--module-add-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` | `.` | Specify the working directory
-`--logLevel=<silent\|info\|verbose>` |  | Specify build-time log level
-`--skipInstall` |  | Skip npm install
-`--skipConfig` |  | Skip nuxt.config.ts update
-`--dev` |  | Install module as dev dependency
+`--cwd=<directory>` | `.` | 作業ディレクトリを指定します
+`--logLevel=<silent\|info\|verbose>` |  | ビルド時のログレベルを指定します
+`--skipInstall` |  | npm install をスキップします
+`--skipConfig` |  | nuxt.config.ts の更新をスキップします
+`--dev` |  | モジュールを dev 依存関係としてインストールします
 <!--/module-add-opts-->
 
-The command lets you install [Nuxt modules](/modules) in your application with no manual work.
+このコマンドを使用すると、手動作業なしでアプリケーションに [Nuxt modules](/modules) をインストールできます。
 
-When running the command, it will:
+コマンドを実行すると、以下が行われます:
 
-- install the module as a dependency using your package manager
-- add it to your [package.json](/docs/guide/directory-structure/package) file
-- update your [`nuxt.config`](/docs/guide/directory-structure/nuxt-config) file
+- パッケージマネージャーを使用してモジュールを依存関係としてインストール
+- [package.json](/docs/guide/directory-structure/package) ファイルに追加
+- [`nuxt.config`](/docs/guide/directory-structure/nuxt-config) ファイルを更新
 
-**Example:**
+**例:**
 
-Installing the [`Pinia`](/modules/pinia) module
+[`Pinia`](/modules/pinia) モジュールをインストールする
 
 ```bash [Terminal]
 npx nuxt module add pinia
@@ -58,26 +58,26 @@ npx nuxt module search <QUERY> [--cwd=<directory>] [--nuxtVersion=<2|3>]
 ```
 <!--/module-search-cmd-->
 
-### Arguments
+### 引数
 
 <!--module-search-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`QUERY` | keywords to search for
+`QUERY` | 検索するキーワード
 <!--/module-search-args-->
 
-### Options
+### オプション
 
 <!--module-search-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` | `.` | Specify the working directory
-`--nuxtVersion=<2\|3>` |  | Filter by Nuxt version and list compatible modules only (auto detected by default)
+`--cwd=<directory>` | `.` | 作業ディレクトリを指定します
+`--nuxtVersion=<2\|3>` |  | Nuxt バージョンでフィルタリングし、互換性のあるモジュールのみを表示します（デフォルトで自動検出）
 <!--/module-search-opts-->
 
-The command searches for Nuxt modules matching your query that are compatible with your Nuxt version.
+このコマンドは、あなたのクエリにマッチし、Nuxt バージョンと互換性のある Nuxt モジュールを検索します。
 
-**Example:**
+**例:**
 
 ```bash [Terminal]
 npx nuxt module search pinia

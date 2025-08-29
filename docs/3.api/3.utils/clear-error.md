@@ -1,6 +1,6 @@
 ---
 title: "clearError"
-description: "The clearError composable clears all handled errors."
+description: "clearError composable は、すべての処理済みエラーをクリアします。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,22 +8,22 @@ links:
     size: xs
 ---
 
-Within your pages, components, and plugins, you can use `clearError` to clear all errors and redirect the user.
+ページ、コンポーネント、プラグイン内で、`clearError` を使用してすべてのエラーをクリアし、ユーザーをリダイレクトできます。
 
-**Parameters:**
+**パラメーター:**
 
 - `options?: { redirect?: string }`
 
-You can provide an optional path to redirect to (for example, if you want to navigate to a 'safe' page).
+リダイレクト先のオプションのパスを提供できます（例えば、「安全な」ページに移動したい場合）。
 
 ```js
-// Without redirect
+// リダイレクトなし
 clearError()
 
-// With redirect
+// リダイレクトあり
 clearError({ redirect: '/homepage' })
 ```
 
-Errors are set in state using [`useError()`](/docs/api/composables/use-error). The `clearError` composable will reset this state and calls the `app:error:cleared` hook with the provided options.
+エラーは [`useError()`](/docs/api/composables/use-error) を使用して state に設定されます。`clearError` composable はこの state をリセットし、提供されたオプションで `app:error:cleared` フックを呼び出します。
 
 :read-more{to="/docs/getting-started/error-handling"}

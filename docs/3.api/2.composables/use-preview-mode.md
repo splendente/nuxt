@@ -1,6 +1,6 @@
 ---
 title: "usePreviewMode"
-description: "Use usePreviewMode to check and control preview mode in Nuxt"
+description: "usePreviewMode を使用して Nuxt でプレビューモードをチェック・制御します。"
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -10,19 +10,19 @@ links:
 
 # `usePreviewMode`
 
-Preview mode allows you to see how your changes would be displayed on a live site without revealing them to users.
+プレビューモードを使用すると、ユーザーに見られることなく、変更がライブサイトでどのように表示されるかを確認できます。
 
-You can use the built-in `usePreviewMode` composable to access and control preview state in Nuxt. If the composable detects preview mode it will automatically force any updates necessary for [`useAsyncData`](/docs/api/composables/use-async-data) and [`useFetch`](/docs/api/composables/use-fetch) to rerender preview content.
+組み込みの `usePreviewMode` composable を使用して、Nuxt でプレビュー状態にアクセスし、制御できます。この composable がプレビューモードを検出すると、プレビューコンテンツを再レンダリングするために [`useAsyncData`](/docs/api/composables/use-async-data) と [`useFetch`](/docs/api/composables/use-fetch) に必要な更新を自動的に強制します。
 
 ```js
 const { enabled, state } = usePreviewMode()
 ```
 
-## Options
+## オプション
 
-### Custom `enable` check
+### カスタム `enable` チェック
 
-You can specify a custom way to enable preview mode. By default the `usePreviewMode` composable will enable preview mode if there is a `preview` param in url that is equal to `true` (for example, `http://localhost:3000?preview=true`). You can wrap the `usePreviewMode` into custom composable, to keep options consistent across usages and prevent any errors.
+プレビューモードを有効にするためのカスタム方法を指定できます。デフォルトでは、`usePreviewMode` composable は URL に `true` と等しい `preview` パラメータがある場合にプレビューモードを有効にします（例: `http://localhost:3000?preview=true`）。使用法全体でオプションの一貫性を保ち、エラーを防ぐために、`usePreviewMode` をカスタム composable でラップできます。
 
 ```js
 export function useMyPreviewMode () {
@@ -34,9 +34,9 @@ export function useMyPreviewMode () {
 }
 ```
 
-### Modify default state
+### デフォルト状態の変更
 
-`usePreviewMode` will try to store the value of a `token` param from url in state. You can modify this state and it will be available for all [`usePreviewMode`](/docs/api/composables/use-preview-mode) calls.
+`usePreviewMode` は URL の `token` パラメータの値を状態に保存しようとします。この状態を変更でき、すべての [`usePreviewMode`](/docs/api/composables/use-preview-mode) 呼び出しで利用できます。
 
 ```js
 const data1 = ref('data1')
@@ -49,31 +49,31 @@ const { enabled, state } = usePreviewMode({
 ```
 
 ::note
-The `getState` function will append returned values to current state, so be careful not to accidentally overwrite important state.
+`getState` 関数は返された値を現在の状態に追加するため、重要な状態を誤って上書きしないよう注意してください。
 ::
 
-### Customize the `onEnable` and `onDisable` callbacks
+### `onEnable` と `onDisable` コールバックのカスタマイズ
 
-By default, when `usePreviewMode` is enabled, it will call `refreshNuxtData()` to re-fetch all data from the server.
+デフォルトでは、`usePreviewMode` が有効になると、サーバーからすべてのデータを再取得するために `refreshNuxtData()` を呼び出します。
 
-When preview mode is disabled, the composable will attach a callback to call `refreshNuxtData()` to run after a subsequent router navigation.
+プレビューモードが無効になると、この composable は後続のルーターナビゲーション後に実行する `refreshNuxtData()` を呼び出すコールバックを添付します。
 
-You can specify custom callbacks to be triggered by providing your own functions for the `onEnable` and `onDisable` options.
+`onEnable` と `onDisable` オプションに独自の関数を提供することで、トリガーするカスタムコールバックを指定できます。
 
 ```js
 const { enabled, state } = usePreviewMode({
   onEnable: () => {
-    console.log('preview mode has been enabled')
+    console.log('プレビューモードが有効になりました')
   },
   onDisable: () => {
-    console.log('preview mode has been disabled')
+    console.log('プレビューモードが無効になりました')
   }
 })
 ```
 
-## Example
+## 例
 
-The example below creates a page where part of a content is rendered only in preview mode.
+以下の例では、コンテンツの一部がプレビューモードでのみレンダリングされるページを作成します。
 
 ```vue [pages/some-page.vue]
 <script setup>
@@ -88,31 +88,31 @@ const { data } = await useFetch('/api/preview', {
 
 <template>
   <div>
-    Some base content
+    ベースコンテンツ
     <p v-if="enabled">
-      Only preview content: {{ state.token }}
+      プレビューのみのコンテンツ: {{ state.token }}
       <br>
       <button @click="enabled = false">
-        disable preview mode
+        プレビューモードを無効にする
       </button>
     </p>
   </div>
 </template>
 ```
 
-Now you can generate your site and serve it:
+サイトを生成して提供できます:
 
 ```bash [Terminal]
 npx nuxt generate
 npx nuxt preview
 ```
 
-Then you can see your preview page by adding the query param `preview` to the end of the page you want to see once:
+次に、見たいページの最後にクエリパラメータ `preview` を追加することで、プレビューページを見ることができます:
 
 ```js
 ?preview=true
 ```
 
 ::note
-`usePreviewMode` should be tested locally with `nuxt generate` and then `nuxt preview` rather than `nuxt dev`. (The [preview command](/docs/api/commands/preview) is not related to preview mode.)
+`usePreviewMode` は `nuxt dev` ではなく `nuxt generate` してから `nuxt preview` でローカルにテストする必要があります。（[preview コマンド](/docs/api/commands/preview)はプレビューモードとは関係ありません。）
 ::

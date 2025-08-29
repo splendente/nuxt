@@ -1,6 +1,6 @@
 ---
 title: "create nuxt"
-description: The init command initializes a fresh Nuxt project.
+description: init コマンドは、新しい Nuxt プロジェクトを初期化します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -14,33 +14,33 @@ npm create nuxt@latest [DIR] [--cwd=<directory>] [-t, --template] [-f, --force] 
 ```
 <!--/init-cmd-->
 
-The `create-nuxt` command initializes a fresh Nuxt project using [unjs/giget](https://github.com/unjs/giget).
+`create-nuxt` コマンドは、[unjs/giget](https://github.com/unjs/giget) を使用して新しい Nuxt プロジェクトを初期化します。
 
-## Arguments
+## 引数
 
 <!--init-args-->
-Argument | Description
+引数 | 説明
 --- | ---
-`DIR=""` | Project directory
+`DIR=""` | プロジェクトディレクトリ
 <!--/init-args-->
 
-## Options
+## オプション
 
 <!--init-opts-->
-Option | Default | Description
+オプション | デフォルト | 説明
 --- | --- | ---
-`--cwd=<directory>` | `.` | Specify the working directory
-`-t, --template` |  | Template name
-`-f, --force` |  | Override existing directory
-`--offline` |  | Force offline mode
-`--preferOffline` |  | Prefer offline mode
-`--no-install` |  | Skip installing dependencies
-`--gitInit` |  | Initialize git repository
-`--shell` |  | Start shell after installation in project directory
-`--packageManager` |  | Package manager choice (npm, pnpm, yarn, bun)
+`--cwd=<directory>` | `.` | 作業ディレクトリを指定します
+`-t, --template` |  | テンプレート名
+`-f, --force` |  | 既存のディレクトリを上書きします
+`--offline` |  | オフラインモードを強制します
+`--preferOffline` |  | オフラインモードを優先します
+`--no-install` |  | 依存関係のインストールをスキップします
+`--gitInit` |  | git リポジトリを初期化します
+`--shell` |  | プロジェクトディレクトリでのインストール後にシェルを開始します
+`--packageManager` |  | パッケージマネージャーの選択（npm、pnpm、yarn、bun）
 <!--/init-opts-->
 
-## Environment variables
+## 環境変数
 
-- `NUXI_INIT_REGISTRY`: Set to a custom template registry. ([learn more](https://github.com/unjs/giget#custom-registry)).
-  - Default registry is loaded from [nuxt/starter/templates](https://github.com/nuxt/starter/tree/templates/templates)
+- `NUXI_INIT_REGISTRY`: カスタムテンプレートレジストリに設定します。（[詳細はこちら](https://github.com/unjs/giget#custom-registry)）。
+  - デフォルトのレジストリは [nuxt/starter/templates](https://github.com/nuxt/starter/tree/templates/templates) から読み込まれます

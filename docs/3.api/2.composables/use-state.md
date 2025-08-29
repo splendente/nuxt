@@ -1,6 +1,6 @@
 ---
 title: "useState"
-description: The useState composable creates a reactive and SSR-friendly shared state.
+description: useState composable はリアクティブで SSR フレンドリーな共有状態を作成します。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,41 +8,41 @@ links:
     size: xs
 ---
 
-## Usage
+## 使用方法
 
 ```ts
-// Create a reactive state and set default value
+// リアクティブな状態を作成し、デフォルト値を設定
 const count = useState('counter', () => Math.round(Math.random() * 100))
 ```
 
 :read-more{to="/docs/getting-started/state-management"}
 
 ::important
-Because the data inside `useState` will be serialized to JSON, it is important that it does not contain anything that cannot be serialized, such as classes, functions or symbols.
+`useState` 内のデータは JSON にシリアライズされるため、クラス、関数、シンボルなど、シリアライズできないものを含まないことが重要です。
 ::
 
 ::warning
-`useState` is a reserved function name transformed by the compiler, so you should not name your own function `useState`.
+`useState` はコンパイラによって変換される予約関数名であるため、独自の関数に `useState` という名前を付けるべきではありません。
 ::
 
 :video-accordion{title="Watch a video from Alexander Lichter about why and when to use useState" videoId="mv0WcBABcIk"}
 
-## Using `shallowRef`
+## `shallowRef` の使用
 
-If you don't need your state to be deeply reactive, you can combine `useState` with [`shallowRef`](https://vuejs.org/api/reactivity-advanced.html#shallowref). This can improve performance when your state contains large objects and arrays.
+状態を深くリアクティブにする必要がない場合、`useState` を [`shallowRef`](https://vuejs.org/api/reactivity-advanced.html#shallowref) と組み合わせることができます。これは、状態が大きなオブジェクトや配列を含む場合にパフォーマンスを向上させることができます。
 
 ```ts
-const state = useState('my-shallow-state', () => shallowRef({ deep: 'not reactive' }))
+const state = useState('my-shallow-state', () => shallowRef({ deep: 'リアクティブではない' }))
 // isShallow(state) === true
 ```
 
-## Type
+## 型
 
 ```ts
 useState<T>(init?: () => T | Ref<T>): Ref<T>
 useState<T>(key: string, init?: () => T | Ref<T>): Ref<T>
 ```
 
-- `key`: A unique key ensuring that data fetching is properly de-duplicated across requests. If you do not provide a key, then a key that is unique to the file and line number of the instance of [`useState`](/docs/api/composables/use-state) will be generated for you.
-- `init`: A function that provides initial value for the state when not initiated. This function can also return a `Ref`.
-- `T`: (typescript only) Specify the type of state
+- `key`: リクエスト間でデータフェッチが適切に重複排除されることを保証する一意のキー。キーを提供しない場合、[`useState`](/docs/api/composables/use-state) のインスタンスのファイルと行番号に固有のキーが生成されます。
+- `init`: 状態が初期化されていないときに状態の初期値を提供する関数。この関数は `Ref` を返すこともできます。
+- `T`: (TypeScript のみ) 状態の型を指定

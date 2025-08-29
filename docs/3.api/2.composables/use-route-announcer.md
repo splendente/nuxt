@@ -1,6 +1,6 @@
 ---
 title: 'useRouteAnnouncer'
-description: This composable observes the page title changes and updates the announcer message accordingly.
+description: この composable はページタイトルの変更を監視し、それに応じてアナウンサーメッセージを更新します。
 navigation:
   badge: New
 links:
@@ -11,45 +11,45 @@ links:
 ---
 
 ::important
-This composable is available in Nuxt v3.12+.
+この composable は Nuxt v3.12+ で利用できます。
 ::
 
-## Description
+## 説明
 
-A composable which observes the page title changes and updates the announcer message accordingly. Used by [`<NuxtRouteAnnouncer>`](/docs/api/components/nuxt-route-announcer) and controllable.
-It hooks into Unhead's [`dom:rendered`](https://unhead.unjs.io/docs/typescript/head/api/hooks/dom-rendered) to read the page's title and set it as the announcer message.
+ページタイトルの変更を監視し、それに応じてアナウンサーメッセージを更新する composable です。[`<NuxtRouteAnnouncer>`](/docs/api/components/nuxt-route-announcer) で使用され、制御できます。
+Unhead の [`dom:rendered`](https://unhead.unjs.io/docs/typescript/head/api/hooks/dom-rendered) にフックしてページのタイトルを読み取り、アナウンサーメッセージとして設定します。
 
-## Parameters
+## パラメーター
 
-- `politeness`: Sets the urgency for screen reader announcements: `off` (disable the announcement), `polite` (waits for silence), or `assertive` (interrupts immediately).  (default `polite`).
+- `politeness`: スクリーンリーダーアナウンスの緊急度を設定：`off`（アナウンスを無効化）、`polite`（無音を待つ）、または `assertive`（即座に中断）。（デフォルト `polite`）。
 
-## Properties
+## プロパティ
 
 ### `message`
 
 - **type**: `Ref<string>`
-- **description**: The message to announce
+- **description**: アナウンスするメッセージ
 
 ### `politeness`
 
 - **type**: `Ref<string>`
-- **description**: Screen reader announcement urgency level `off`, `polite`, or `assertive`
+- **description**: スクリーンリーダーアナウンスの緊急度レベル `off`、`polite`、または `assertive`
 
-## Methods
+## メソッド
 
 ### `set(message, politeness = "polite")`
 
-Sets the message to announce with its urgency level.
+緊急度レベルとともにアナウンスするメッセージを設定します。
 
 ### `polite(message)`
 
-Sets the message with `politeness = "polite"`
+`politeness = "polite"` でメッセージを設定します
 
 ### `assertive(message)`
 
-Sets the message with `politeness = "assertive"`
+`politeness = "assertive"` でメッセージを設定します
 
-## Example
+## 例
 
 ```vue [pages/index.vue]
 <script setup lang="ts">

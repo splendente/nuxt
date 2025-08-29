@@ -1,6 +1,6 @@
 ---
 title: 'useRequestFetch'
-description: 'Forward the request context and headers for server-side fetch requests with the useRequestFetch composable.'
+description: 'useRequestFetch composable でサーバーサイドフェッチリクエストのリクエストコンテキストとヘッダーを転送します。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,31 +8,31 @@ links:
     size: xs
 ---
 
-You can use `useRequestFetch` to forward the request context and headers when making server-side fetch requests.
+サーバーサイドフェッチリクエストを行う際に、`useRequestFetch` を使用してリクエストコンテキストとヘッダーを転送できます。
 
-When making a client-side fetch request, the browser automatically sends the necessary headers.
-However, when making a request during server-side rendering, due to security considerations, we need to forward the headers manually.
+クライアントサイドでフェッチリクエストを行う場合、ブラウザは必要なヘッダーを自動的に送信します。
+しかし、サーバーサイドレンダリング中にリクエストを行う場合、セキュリティ上の理由から、ヘッダーを手動で転送する必要があります。
 
 ::note
-Headers that are **not meant to be forwarded** will **not be included** in the request. These headers include, for example:
+**転送すべきではない**ヘッダーはリクエストに**含まれません**。これらのヘッダーには、例えば以下が含まれます:
 `transfer-encoding`, `connection`, `keep-alive`, `upgrade`, `expect`, `host`, `accept`
 ::
 
 ::tip
-The [`useFetch`](/docs/api/composables/use-fetch) composable uses `useRequestFetch` under the hood to automatically forward the request context and headers.
+[`useFetch`](/docs/api/composables/use-fetch) composable は内部で `useRequestFetch` を使用して、リクエストコンテキストとヘッダーを自動的に転送します。
 ::
 
 ::code-group
 
 ```vue [pages/index.vue]
 <script setup lang="ts">
-// This will forward the user's headers to the `/api/cookies` event handler
-// Result: { cookies: { foo: 'bar' } }
+// これはユーザーのヘッダーを `/api/cookies` イベントハンドラーに転送します
+// 結果: { cookies: { foo: 'bar' } }
 const requestFetch = useRequestFetch()
 const { data: forwarded } = await useAsyncData(() => requestFetch('/api/cookies'))
 
-// This will NOT forward anything
-// Result: { cookies: {} }
+// これは何も転送しません
+// 結果: { cookies: {} }
 const { data: notForwarded } = await useAsyncData(() => $fetch('/api/cookies')) 
 </script>
 ```
@@ -48,5 +48,5 @@ export default defineEventHandler((event) => {
 ::
 
 ::tip
-In the browser during client-side navigation, `useRequestFetch` will behave just like regular [`$fetch`](/docs/api/utils/dollarfetch).
+クライアントサイドナビゲーション中のブラウザでは、`useRequestFetch` は通常の [`$fetch`](/docs/api/utils/dollarfetch) と同じように動作します。
 ::

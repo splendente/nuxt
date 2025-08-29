@@ -1,6 +1,6 @@
 ---
 title: 'useHydration'
-description: 'Allows full control of the hydration cycle to set and receive data from the server.'
+description: 'hydration サイクルを完全に制御して、サーバーからデータを設定および受信できます。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -9,22 +9,22 @@ links:
 ---
 
 ::note
-This is an advanced composable, primarily designed for use within plugins, mostly used by Nuxt modules.
+これは高度な composable で、主にプラグイン内での使用を目的として設計され、ほとんどの場合 Nuxt モジュールによって使用されます。
 ::
 
 ::note
-`useHydration` is designed to **ensure state synchronization and restoration during SSR**. If you need to create a globally reactive state that is SSR-friendly in Nuxt, [`useState`](/docs/api/composables/use-state) is the recommended choice.
+`useHydration` は **SSR 中の状態同期と復元を保証する** ように設計されています。Nuxt で SSR に優しいグローバルなリアクティブ状態を作成する必要がある場合は、[`useState`](/docs/api/composables/use-state) が推奨される選択肢です。
 ::
 
-`useHydration` is a built-in composable that provides a way to set data on the server side every time a new HTTP request is made and receive that data on the client side. This way `useHydration` allows you to take full control of the hydration cycle.
+`useHydration` は、新しい HTTP リクエストが作成されるたびにサーバーサイドでデータを設定し、クライアントサイドでそのデータを受信する方法を提供する組み込み composable です。このように `useHydration` は hydration サイクルを完全に制御できます。
 
-The data returned from the `get` function on the server is stored in `nuxtApp.payload` under the unique key provided as the first parameter to `useHydration`. During hydration, this data is then retrieved on the client, preventing redundant computations or API calls.
+サーバー上の `get` 関数から返されたデータは、`useHydration` の第一パラメーターとして提供された一意キーの下で `nuxtApp.payload` に保存されます。hydration 中、このデータはクライアントで取得され、無駄な計算や API 呼び出しを防います。
 
-## Usage
+## 使用方法
 
 ::code-group
 
-```ts [Without useHydration]
+```ts [useHydration を使用しない場合]
 export default defineNuxtPlugin((nuxtApp) => {
   const myStore = new MyStore()
 
@@ -42,7 +42,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 })
 ```
 
-```ts [With useHydration]
+```ts [useHydration を使用する場合]
 export default defineNuxtPlugin((nuxtApp) => {
   const myStore = new MyStore()
 
@@ -55,14 +55,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 ```
 ::
 
-## Type
+## 型
 
 ```ts [signature]
 useHydration <T> (key: string, get: () => T, set: (value: T) => void) => void
 ```
 
-## Parameters
+## パラメーター
 
-- `key`: A unique key that identifies the data in your Nuxt application.
-- `get`: A function executed **only on the server** (called when SSR rendering is done) to set the initial value.
-- `set`: A function executed **only on the client** (called when initial vue instance is created) to receive the data.
+- `key`: Nuxt アプリケーション内でデータを識別する一意キー。
+- `get`: **サーバーでのみ** 実行される関数（SSR レンダリングが完了したときに呼び出される）で、初期値を設定します。
+- `set`: **クライアントでのみ** 実行される関数（初期 Vue インスタンスが作成されたときに呼び出される）で、データを受信します。

@@ -1,6 +1,6 @@
 ---
 title: useHeadSafe
-description: The recommended way to provide head data with user input.
+description: ユーザー入力で head データを提供する推奨される方法。
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,11 +8,11 @@ links:
     size: xs
 ---
 
-The `useHeadSafe` composable is a wrapper around the [`useHead`](/docs/api/composables/use-head) composable that restricts the input to only allow safe values.
+`useHeadSafe` composable は [`useHead`](/docs/api/composables/use-head) composable のラッパーで、入力を安全な値のみを許可するように制限します。
 
-## Usage
+## 使用方法
 
-You can pass all the same values as [`useHead`](/docs/api/composables/use-head)
+[`useHead`](/docs/api/composables/use-head) と同じ値をすべて渡すことができます
 
 ```ts
 useHeadSafe({
@@ -23,22 +23,22 @@ useHeadSafe({
     { 'http-equiv': 'refresh', content: '0;javascript:alert(1)' }
   ]
 })
-// Will safely generate
+// 安全に生成されます
 // <script id="xss-script"></script>
 // <meta content="0;javascript:alert(1)">
 ```
 
 ::read-more{to="https://unhead.unjs.io/docs/typescript/head/api/composables/use-head-safe" target="_blank"}
-Read more on the `Unhead` documentation.
+`Unhead` ドキュメントで詳しく読んでください。
 ::
 
-## Type
+## 型
 
 ```ts
 useHeadSafe(input: MaybeComputedRef<HeadSafe>): void
 ```
 
-The list of allowed values is:
+許可される値のリストは以下の通りです:
 
 ```ts
 const WhitelistAttributes = {
@@ -52,4 +52,4 @@ const WhitelistAttributes = {
 }
 ```
 
-See [@unhead/vue](https://github.com/unjs/unhead/blob/main/packages/vue/src/types/safeSchema.ts) for more detailed types.
+より詳細な型については [@unhead/vue](https://github.com/unjs/unhead/blob/main/packages/vue/src/types/safeSchema.ts) を参照してください。

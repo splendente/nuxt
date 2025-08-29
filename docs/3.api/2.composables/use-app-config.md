@@ -1,6 +1,6 @@
 ---
 title: 'useAppConfig'
-description: 'Access the reactive app config defined in the project.'
+description: 'プロジェクトで定義されたリアクティブなアプリ設定にアクセスします。'
 links:
   - label: Source
     icon: i-simple-icons-github
@@ -8,7 +8,7 @@ links:
     size: xs
 ---
 
-## Usage
+## 使用方法
 
 ```ts
 const appConfig = useAppConfig()
